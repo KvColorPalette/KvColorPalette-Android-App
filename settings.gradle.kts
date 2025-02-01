@@ -1,24 +1,42 @@
+import java.net.URI
+
+rootProject.name = "KvColorPalette-Android-App"
+
+listOf(
+    ":app"
+).onEach {
+    include(it)
+}
+
 pluginManagement {
-    repositories {
-        google {
-            content {
-                includeGroupByRegex("com\\.android.*")
-                includeGroupByRegex("com\\.google.*")
-                includeGroupByRegex("androidx.*")
+    resolutionStrategy {
+        eachPlugin {
+            when(requested.id.toString()) {
+                in listOf(
+                    "com.google.gms.google-services"
+                ) -> useModule("com.google.gms:google-services:${requested.version}")
+                else -> return@eachPlugin
             }
         }
-        mavenCentral()
-        gradlePluginPortal()
     }
-}
-dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+
     repositories {
-        google()
         mavenCentral()
+        google()
     }
 }
 
-rootProject.name = "KvColorPalette-Android-App"
-include(":app")
+dependencyResolutionManagement {
+    versionCatalogs {
+        create("libs") {
+            from(files("./gradle/version-catalog/libs.versions.toml"))
+        }
+    }
+
+    repositories {
+        google()
+        mavenCentral()
+        maven { url = URI("https://jitpack.io") }
+    }
+}
  
