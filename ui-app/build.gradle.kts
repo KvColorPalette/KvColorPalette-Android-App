@@ -54,7 +54,7 @@ dependencies {
     implementation(libs.androidx.compose.material)
     implementation(libs.androidx.navigation.compose)
 
-    implementation("com.github.KvColorPalette:KvColorPalette-Android:1.1.0")
+    implementation("com.github.KvColorPalette:KvColorPalette-Android:1.2.0")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
