@@ -3,7 +3,7 @@ import java.net.URI
 rootProject.name = "KvColorPalette-Android-App"
 
 listOf(
-    ":app"
+    ":ui-app"
 ).onEach {
     include(it)
 }
