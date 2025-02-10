@@ -33,9 +33,9 @@ import com.kavi.droid.color.palette.KvColorPalette
 import com.kavi.droid.color.palette.app.theme.KvColorPaletteTheme
 import com.kavi.droid.color.palette.app.ui.common.SelectedColorUI
 import com.kavi.droid.color.palette.app.ui.common.ThemeColorItem
-import com.kavi.droid.color.palette.app.ui.common.picker.KvColorPickerBottomSheet
 import com.kavi.droid.color.palette.model.AppThemePalette
 import com.kavi.droid.color.palette.util.ColorUtil
+import com.kavi.droid.color.picker.KvColorPickerBottomSheet
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
