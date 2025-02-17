@@ -40,4 +40,12 @@ dependencyResolutionManagement {
         maven { url = URI("https://jitpack.io") }
     }
 }
+
+// This is for local development (Use this as a gradle composite build)
+/*includeBuild("../KvColorPicker-Android") {
+    dependencySubstitution {
+        substitute(module("com.github.KvColorPalette:KvColorPicker-Android"))
+            .using(project(":kv-color-picker"))
+    }
+}*/
  
