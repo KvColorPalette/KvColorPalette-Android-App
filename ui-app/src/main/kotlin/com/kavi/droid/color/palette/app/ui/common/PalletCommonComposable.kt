@@ -64,15 +64,15 @@ fun ColorDetailRow(selectedColor: Color) {
             elevation = 10.dp,
             shape = RoundedCornerShape(8.dp)
         )
-        .background(MaterialTheme.colorScheme.tertiary)
+        .background(MaterialTheme.colorScheme.background)
         .padding(12.dp)
     ) {
         Box(
             Modifier.padding(end = 8.dp)
                 .width(60.dp)
                 .height(60.dp)
-                .background(selectedColor, RectangleShape)
-                .border(2.dp, MaterialTheme.colorScheme.primary, RectangleShape)
+                .background(selectedColor, shape = RoundedCornerShape(8.dp))
+                .border(2.dp, MaterialTheme.colorScheme.primary, RoundedCornerShape(8.dp))
         )
 
         Column {
