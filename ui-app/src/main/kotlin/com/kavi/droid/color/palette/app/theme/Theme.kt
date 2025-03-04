@@ -12,8 +12,6 @@ fun KvColorPaletteTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
-    val theme = KvColorPalette.appThemePalette
-
     val appColorScheme = when {
         darkTheme -> KvColorPalette.colorSchemeThemePalette.darkColorScheme
         else -> KvColorPalette.colorSchemeThemePalette.lightColorScheme
