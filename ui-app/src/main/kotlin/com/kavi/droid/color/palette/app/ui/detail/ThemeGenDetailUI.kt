@@ -33,7 +33,9 @@ import com.kavi.droid.color.palette.KvColorPalette
 import com.kavi.droid.color.palette.app.theme.KvColorPaletteTheme
 import com.kavi.droid.color.palette.app.ui.common.SelectedColorUI
 import com.kavi.droid.color.palette.app.ui.common.ThemeColorItem
-import com.kavi.droid.color.palette.model.AppThemePalette
+import com.kavi.droid.color.palette.extension.quaternary
+import com.kavi.droid.color.palette.extension.shadow
+import com.kavi.droid.color.palette.model.ColorSchemeThemePalette
 import com.kavi.droid.color.palette.util.ColorUtil
 import com.kavi.droid.color.picker.ui.KvColorPickerBottomSheet
 
@@ -42,7 +44,7 @@ import com.kavi.droid.color.picker.ui.KvColorPickerBottomSheet
 fun ThemeGenDetailUI() {
     val selectedColor = remember { mutableStateOf(Color.White) }
     val colorHex = remember { mutableStateOf(TextFieldValue("")) }
-    var themeColorPalette by remember { mutableStateOf<AppThemePalette?>(null) }
+    var themeColorPalette by remember { mutableStateOf<ColorSchemeThemePalette?>(null) }
 
     val showSheet = remember { mutableStateOf(false) }
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
@@ -84,8 +86,7 @@ fun ThemeGenDetailUI() {
                     .fillMaxWidth(),
                 shape = RoundedCornerShape(8.dp),
                 onClick = {
-                    themeColorPalette = KvColorPalette.instance.generateThemeColorPalette(givenColor = selectedColor.value)
-                    println("Theme Color Palette: $themeColorPalette")
+                    themeColorPalette = KvColorPalette.instance.generateThemeColorSchemePalette(givenColor = selectedColor.value)
                 }
             ) {
                 Text("Generate Theme")
@@ -111,14 +112,14 @@ fun ThemeGenDetailUI() {
                                 .clip(RoundedCornerShape(8.dp))
                                 .verticalScroll(rememberScrollState())
                         ) {
-                            ThemeColorItem(color = it.light.primary, itemName = "Primary")
-                            ThemeColorItem(color = it.light.secondary, itemName = "Secondary")
-                            ThemeColorItem(color = it.light.tertiary, itemName = "Tertiary")
-                            ThemeColorItem(color = it.light.quaternary, itemName = "Quaternary")
-                            ThemeColorItem(color = it.light.onPrimary, itemName = "onPrimary")
-                            ThemeColorItem(color = it.light.onSecondary, itemName = "onSecondary")
-                            ThemeColorItem(color = it.light.background, itemName = "Background")
-                            ThemeColorItem(color = it.light.shadow, itemName = "Shadow")
+                            ThemeColorItem(color = it.lightColorScheme.primary, itemName = "Primary")
+                            ThemeColorItem(color = it.lightColorScheme.secondary, itemName = "Secondary")
+                            ThemeColorItem(color = it.lightColorScheme.tertiary, itemName = "Tertiary")
+                            ThemeColorItem(color = it.lightColorScheme.quaternary, itemName = "Quaternary")
+                            ThemeColorItem(color = it.lightColorScheme.onPrimary, itemName = "onPrimary")
+                            ThemeColorItem(color = it.lightColorScheme.onSecondary, itemName = "onSecondary")
+                            ThemeColorItem(color = it.lightColorScheme.background, itemName = "Background")
+                            ThemeColorItem(color = it.lightColorScheme.shadow, itemName = "Shadow")
                         }
                     }
 
@@ -139,14 +140,14 @@ fun ThemeGenDetailUI() {
                                 .clip(RoundedCornerShape(8.dp))
                                 .verticalScroll(rememberScrollState())
                         ) {
-                            ThemeColorItem(color = it.dark.primary, itemName = "Primary")
-                            ThemeColorItem(color = it.dark.secondary, itemName = "Secondary")
-                            ThemeColorItem(color = it.dark.tertiary, itemName = "Tertiary")
-                            ThemeColorItem(color = it.dark.quaternary, itemName = "Quaternary")
-                            ThemeColorItem(color = it.dark.onPrimary, itemName = "onPrimary")
-                            ThemeColorItem(color = it.dark.onSecondary, itemName = "onSecondary")
-                            ThemeColorItem(color = it.dark.background, itemName = "Background")
-                            ThemeColorItem(color = it.dark.shadow, itemName = "Shadow")
+                            ThemeColorItem(color = it.darkColorScheme.primary, itemName = "Primary")
+                            ThemeColorItem(color = it.darkColorScheme.secondary, itemName = "Secondary")
+                            ThemeColorItem(color = it.darkColorScheme.tertiary, itemName = "Tertiary")
+                            ThemeColorItem(color = it.darkColorScheme.quaternary, itemName = "Quaternary")
+                            ThemeColorItem(color = it.darkColorScheme.onPrimary, itemName = "onPrimary")
+                            ThemeColorItem(color = it.darkColorScheme.onSecondary, itemName = "onSecondary")
+                            ThemeColorItem(color = it.darkColorScheme.background, itemName = "Background")
+                            ThemeColorItem(color = it.darkColorScheme.shadow, itemName = "Shadow")
                         }
                     }
                 }

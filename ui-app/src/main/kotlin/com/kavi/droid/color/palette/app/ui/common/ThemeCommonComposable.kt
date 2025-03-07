@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kavi.droid.color.palette.KvColorPalette
 import com.kavi.droid.color.palette.extension.isHighLightColor
+import com.kavi.droid.color.palette.extension.quaternary
 import com.kavi.droid.color.palette.util.ColorUtil
 
 @Composable
@@ -89,7 +90,7 @@ fun ThemeColorRow(givenColor: Color) {
                 .fillMaxWidth(),
                 verticalArrangement = Arrangement.Center,
             ) {
-                val appThemeColorSet = KvColorPalette.instance.generateThemeColorPalette(
+                val appThemeColorSet = KvColorPalette.instance.generateThemeColorSchemePalette(
                     givenColor = givenColor,
                 )
 
@@ -101,11 +102,11 @@ fun ThemeColorRow(givenColor: Color) {
                         .padding(top = 4.dp, start = 8.dp, end = 8.dp, bottom = 4.dp),
                     //horizontalArrangement = Arrangement.Center
                 ) {
-                    ColorCircle(appThemeColorSet.light.primary, colorLetter = "P")
-                    ColorCircle(appThemeColorSet.light.secondary, colorLetter = "S")
-                    ColorCircle(appThemeColorSet.light.tertiary, colorLetter = "T")
-                    ColorCircle(appThemeColorSet.light.quaternary, colorLetter = "Q")
-                    ColorCircle(appThemeColorSet.light.background, colorLetter = "B", letterColor = Color.Black)
+                    ColorCircle(appThemeColorSet.lightColorScheme.primary, colorLetter = "P")
+                    ColorCircle(appThemeColorSet.lightColorScheme.secondary, colorLetter = "S")
+                    ColorCircle(appThemeColorSet.lightColorScheme.tertiary, colorLetter = "T")
+                    ColorCircle(appThemeColorSet.lightColorScheme.quaternary, colorLetter = "Q")
+                    ColorCircle(appThemeColorSet.lightColorScheme.background, colorLetter = "B", letterColor = Color.Black)
                 }
 
                 Text("Dark Theme", Modifier.padding(top = 8.dp, start = 8.dp), style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.ExtraBold, color = Color.Black)
@@ -116,11 +117,11 @@ fun ThemeColorRow(givenColor: Color) {
                         .padding(top = 4.dp, start = 8.dp, end = 8.dp, bottom = 4.dp),
                     //horizontalArrangement = Arrangement.Center
                 ) {
-                    ColorCircle(appThemeColorSet.dark.primary, colorLetter = "P")
-                    ColorCircle(appThemeColorSet.dark.secondary, colorLetter = "S", letterColor = Color.Black)
-                    ColorCircle(appThemeColorSet.dark.tertiary, colorLetter = "T")
-                    ColorCircle(appThemeColorSet.dark.quaternary, colorLetter = "Q", letterColor = Color.Black)
-                    ColorCircle(appThemeColorSet.dark.background, colorLetter = "B")
+                    ColorCircle(appThemeColorSet.darkColorScheme.primary, colorLetter = "P")
+                    ColorCircle(appThemeColorSet.darkColorScheme.secondary, colorLetter = "S", letterColor = Color.Black)
+                    ColorCircle(appThemeColorSet.darkColorScheme.tertiary, colorLetter = "T")
+                    ColorCircle(appThemeColorSet.darkColorScheme.quaternary, colorLetter = "Q", letterColor = Color.Black)
+                    ColorCircle(appThemeColorSet.darkColorScheme.background, colorLetter = "B")
                 }
             }
         }

@@ -1,6 +1,6 @@
 # KvColorPalette - Android: Reference App
 
-This is a sample demostration app of consuming KvColorPalette-Android android library. This app will show case how developer can use
+This is a sample demonstration app of consuming KvColorPalette-Android android library. This app will show case how developer can use
 KvColorPalette-Android library.
 
 # Features
