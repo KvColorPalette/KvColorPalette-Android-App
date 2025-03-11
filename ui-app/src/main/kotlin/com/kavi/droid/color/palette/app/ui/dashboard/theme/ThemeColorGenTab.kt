@@ -52,7 +52,7 @@ fun ThemeColorGenTab(navController: NavHostController, modifier: Modifier) {
             ThemeColorRow(MatPackage.MatRed.color)
             ThemeColorRow(MatPackage.MatOrange.color)
             ThemeColorRow(MatPackage.MatDGreen.color)
-            ThemeColorRow(Mat500LLBlue)
+            ThemeColorRow(MatPackage.MatLLBlue.color)
 
             Button(
                 modifier = Modifier
