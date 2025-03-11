@@ -26,13 +26,15 @@ import com.kavi.droid.color.palette.app.model.TabItem
 import com.kavi.droid.color.palette.app.theme.KvColorPaletteTheme
 import com.kavi.droid.color.palette.app.theme.navigationBarColors
 import com.kavi.droid.color.palette.app.ui.dashboard.palette.ColorPaletteTab
+import com.kavi.droid.color.palette.app.ui.dashboard.settings.SettingsTab
 import com.kavi.droid.color.palette.app.ui.dashboard.theme.ThemeColorGenTab
 
 @Composable
 fun DashboardTabUI(navController: NavHostController) {
     val tabItems = listOf(
         TabItem(name = "Color Palettes", icon = R.drawable.icon_color_grid),
-        TabItem(name = "Theme Gen", icon = R.drawable.icon_theme_masks)
+        TabItem(name = "Theme Gen", icon = R.drawable.icon_theme_masks),
+        TabItem(name = "Settings", icon = R.drawable.icon_settings_gear)
     )
     var selectedTabIndex by remember { mutableIntStateOf(0) }
 
@@ -80,6 +82,7 @@ fun TabContent(navController: NavHostController, selectedTabIndex: Int, modifier
     when (selectedTabIndex) {
         0 -> ColorPaletteTab(navController = navController, modifier = modifier)
         1 -> ThemeColorGenTab(navController = navController, modifier =  modifier)
+        2 -> SettingsTab(navController = navController, modifier = modifier)
     }
 }
 
