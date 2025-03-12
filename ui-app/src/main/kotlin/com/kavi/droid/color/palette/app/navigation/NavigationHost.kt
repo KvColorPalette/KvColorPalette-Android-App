@@ -1,6 +1,8 @@
 package com.kavi.droid.color.palette.app.navigation
 
+import androidx.compose.material3.ColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -11,10 +13,10 @@ import com.kavi.droid.color.palette.app.ui.dashboard.DashboardTabUI
 
 object NavigationHost {
     @Composable
-    fun NavGraph(navController: NavHostController) {
+    fun NavGraph(navController: NavHostController, colorScheme: MutableState<ColorScheme?>) {
         NavHost(navController = navController, startDestination = "dashboard-tab") {
             composable(route = "dashboard-tab") {
-                DashboardTabUI(navController = navController)
+                DashboardTabUI(navController = navController, colorScheme = colorScheme)
             }
             composable(route = "palette-gen-detail/{paletteType}") { navBackStack ->
                 val paletteType = navBackStack.arguments?.getString("paletteType")
