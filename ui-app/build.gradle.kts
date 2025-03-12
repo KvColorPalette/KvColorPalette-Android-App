@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -53,6 +54,17 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.compose.material)
     implementation(libs.androidx.navigation.compose)
+
+    // Kotlin Serialization
+    implementation(libs.kotlinx.serialization.json)
+
+    // Kotlin Coroutines
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.coroutines.android)
+
+    // Datastore
+    implementation(libs.androidx.datastore)
+    implementation(libs.androidx.datastore.preference)
 
     implementation(libs.kv.color.palette)
     implementation(libs.kv.color.picker)

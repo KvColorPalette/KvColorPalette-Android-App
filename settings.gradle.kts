@@ -15,6 +15,9 @@ pluginManagement {
                 in listOf(
                     "com.google.gms.google-services"
                 ) -> useModule("com.google.gms:google-services:${requested.version}")
+                in listOf(
+                    "kotlin-serialization"
+                ) -> useModule("org.jetbrains.kotlin:kotlin-serialization:${requested.version}")
                 else -> return@eachPlugin
             }
         }
