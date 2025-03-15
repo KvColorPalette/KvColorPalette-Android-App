@@ -1,8 +1,10 @@
 package com.kavi.droid.color.palette.app.ui.common
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -55,35 +57,145 @@ fun ColorBox(givenColor: Color, selectedColor: Color?, onSelect: (color: Color) 
 }
 
 @Composable
-fun ColorDetailRow(selectedColor: Color) {
-    Row (Modifier
-        .padding(top = 8.dp, bottom = 8.dp, start = 16.dp, end = 16.dp)
-        .fillMaxWidth()
-        .border(1.dp, Color.White, shape = RoundedCornerShape(8.dp))
-        .shadow(
-            elevation = 10.dp,
-            shape = RoundedCornerShape(8.dp)
-        )
-        .background(MaterialTheme.colorScheme.background)
-        .padding(12.dp)
+fun ColorDetailRow(selectedColorList: List<Color>) {
+    Row (
+        modifier = Modifier
+            .padding(top = 4.dp, bottom = 6.dp, start = 16.dp, end = 16.dp)
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.Center
     ) {
-        Box(
-            Modifier.padding(end = 8.dp)
-                .width(60.dp)
-                .height(60.dp)
-                .background(selectedColor, shape = RoundedCornerShape(8.dp))
-                .border(2.dp, MaterialTheme.colorScheme.primary, RoundedCornerShape(8.dp))
-        )
-
         Column {
-            Row {
-                Text("HEX:", modifier = Modifier.width(150.dp).padding(4.dp), style = MaterialTheme.typography.bodyMedium)
-                Text(ColorUtil.getHex(color = selectedColor), modifier = Modifier.padding(4.dp), style = MaterialTheme.typography.bodyLarge)
+            var firstSpotColor: Color = Color.White
+            if (selectedColorList.isNotEmpty()) {
+                firstSpotColor = selectedColorList[0]
             }
 
-            Row {
-                Text("HEX with ALPHA:", modifier = Modifier.width(150.dp).padding(4.dp), style = MaterialTheme.typography.bodyMedium)
-                Text(ColorUtil.getHexWithAlpha(color = selectedColor), modifier = Modifier.padding(4.dp), style = MaterialTheme.typography.bodyLarge)
+            Box(
+                Modifier.padding(end = 6.dp)
+                    .width(58.dp)
+                    .height(58.dp)
+                    .background(firstSpotColor, shape = RoundedCornerShape(8.dp))
+                    .border(2.dp, MaterialTheme.colorScheme.primary, RoundedCornerShape(8.dp))
+            )
+
+            SelectionContainer {
+                Text(
+                    text = ColorUtil.getHex(color = firstSpotColor),
+                    modifier = Modifier
+                        .width(60.dp)
+                        .padding(4.dp),
+                    style = MaterialTheme.typography.bodyMedium,
+                    fontSize = 12.sp,
+                    textAlign = TextAlign.Center
+                )
+            }
+        }
+
+        Column {
+            var secondSpotColor: Color = Color.White
+            if (selectedColorList.size >= 2) {
+                secondSpotColor = selectedColorList[1]
+            }
+
+            Box(
+                Modifier.padding(end = 6.dp)
+                    .width(58.dp)
+                    .height(58.dp)
+                    .background(secondSpotColor, shape = RoundedCornerShape(8.dp))
+                    .border(2.dp, MaterialTheme.colorScheme.primary, RoundedCornerShape(8.dp))
+            )
+
+            SelectionContainer {
+                Text(
+                    text = ColorUtil.getHex(color = secondSpotColor),
+                    modifier = Modifier
+                        .width(60.dp)
+                        .padding(4.dp),
+                    style = MaterialTheme.typography.bodyMedium,
+                    fontSize = 12.sp,
+                    textAlign = TextAlign.Center
+                )
+            }
+        }
+
+        Column {
+            var thirdSpotColor: Color = Color.White
+            if (selectedColorList.size >= 3) {
+                thirdSpotColor = selectedColorList[2]
+            }
+
+            Box(
+                Modifier.padding(end = 6.dp)
+                    .width(58.dp)
+                    .height(58.dp)
+                    .background(thirdSpotColor, shape = RoundedCornerShape(8.dp))
+                    .border(2.dp, MaterialTheme.colorScheme.primary, RoundedCornerShape(8.dp))
+            )
+
+            SelectionContainer {
+                Text(
+                    text = ColorUtil.getHex(color = thirdSpotColor),
+                    modifier = Modifier
+                        .width(60.dp)
+                        .padding(4.dp),
+                    style = MaterialTheme.typography.bodyMedium,
+                    fontSize = 12.sp,
+                    textAlign = TextAlign.Center
+                )
+            }
+        }
+
+        Column {
+            var forthSpotColor: Color = Color.White
+            if (selectedColorList.size >= 4) {
+                forthSpotColor = selectedColorList[3]
+            }
+
+            Box(
+                Modifier.padding(end = 6.dp)
+                    .width(58.dp)
+                    .height(58.dp)
+                    .background(forthSpotColor, shape = RoundedCornerShape(8.dp))
+                    .border(2.dp, MaterialTheme.colorScheme.primary, RoundedCornerShape(8.dp))
+            )
+
+            SelectionContainer {
+                Text(
+                    text = ColorUtil.getHex(color = forthSpotColor),
+                    modifier = Modifier
+                        .width(60.dp)
+                        .padding(4.dp),
+                    style = MaterialTheme.typography.bodyMedium,
+                    fontSize = 12.sp,
+                    textAlign = TextAlign.Center
+                )
+            }
+        }
+
+        Column {
+            var fifthSpotColor: Color = Color.White
+            if (selectedColorList.size >= 5) {
+                fifthSpotColor = selectedColorList[4]
+            }
+
+            Box(
+                Modifier.padding(end = 6.dp)
+                    .width(58.dp)
+                    .height(58.dp)
+                    .background(fifthSpotColor, shape = RoundedCornerShape(8.dp))
+                    .border(2.dp, MaterialTheme.colorScheme.primary, RoundedCornerShape(8.dp))
+            )
+
+            SelectionContainer {
+                Text(
+                    text = ColorUtil.getHex(color = fifthSpotColor),
+                    modifier = Modifier
+                        .width(60.dp)
+                        .padding(4.dp),
+                    style = MaterialTheme.typography.bodyMedium,
+                    fontSize = 12.sp,
+                    textAlign = TextAlign.Center
+                )
             }
         }
     }

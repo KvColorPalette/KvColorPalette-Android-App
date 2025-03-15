@@ -7,7 +7,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -25,6 +27,11 @@ import com.kavi.droid.color.palette.app.ui.common.ColorDetailRow
 fun LightnessPalettePager() {
 
     var selectedColor by remember { mutableStateOf(Color.White) }
+    val selectedColorList = remember { mutableStateListOf<Color>() }
+
+    LaunchedEffect(selectedColor) {
+        selectedColorList.add(0, selectedColor)
+    }
 
     Column {
         Row (Modifier
@@ -61,7 +68,7 @@ fun LightnessPalettePager() {
             LightnessPaletteColorRow(givenColor = MatPackage.MatOrange, selectedColor = selectedColor) { color -> selectedColor = color }
         }
 
-        ColorDetailRow(selectedColor = selectedColor)
+        ColorDetailRow(selectedColorList = selectedColorList)
     }
 }
 
