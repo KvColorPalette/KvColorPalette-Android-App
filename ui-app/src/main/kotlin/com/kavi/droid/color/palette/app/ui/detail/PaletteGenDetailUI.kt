@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.sp
 import com.kavi.droid.color.palette.KvColorPalette
 import com.kavi.droid.color.palette.app.model.PaletteType
 import com.kavi.droid.color.palette.app.theme.KvColorPaletteTheme
+import com.kavi.droid.color.palette.app.ui.common.ColorCountSelector
 import com.kavi.droid.color.palette.app.ui.common.ColorStrip
 import com.kavi.droid.color.palette.app.ui.common.SelectedColorUI
 import com.kavi.droid.color.palette.util.ColorUtil
@@ -41,6 +42,7 @@ import com.kavi.droid.color.picker.ui.KvColorPickerBottomSheet
 fun PaletteGenDetailUI(paletteType: PaletteType) {
 
     val selectedColor = remember { mutableStateOf(Color.White) }
+    val selectedColorCount = remember { mutableStateOf("2") }
     val colorHex = remember { mutableStateOf(TextFieldValue("")) }
     var colorPalette by remember { mutableStateOf<List<Color>>(emptyList()) }
 
@@ -77,6 +79,10 @@ fun PaletteGenDetailUI(paletteType: PaletteType) {
 
             SelectedColorUI(colorHex, selectedColor, showSheet)
 
+            if (paletteType != PaletteType.KV_PALETTE) {
+                ColorCountSelector(selectedColorCount = selectedColorCount)
+            }
+
             if (showSheet.value) {
                 KvColorPickerBottomSheet(showSheet = showSheet,
                     sheetState = sheetState, onColorSelected = {
@@ -96,9 +102,9 @@ fun PaletteGenDetailUI(paletteType: PaletteType) {
                             val closestKvColor = KvColorPalette.instance.findClosestKvColor(givenColor = selectedColor.value)
                             KvColorPalette.instance.generateColorPalette(givenColor = closestKvColor)
                         }
-                        PaletteType.ALPHA_PALETTE -> KvColorPalette.instance.generateAlphaColorPalette(givenColor = selectedColor.value)
-                        PaletteType.LIGHTNESS_PALETTE -> KvColorPalette.instance.generateLightnessColorPalette(givenColor = selectedColor.value)
-                        PaletteType.SATURATION_PALETTE -> KvColorPalette.instance.generateSaturationColorPalette(givenColor = selectedColor.value)
+                        PaletteType.ALPHA_PALETTE -> KvColorPalette.instance.generateAlphaColorPalette(givenColor = selectedColor.value, colorCount = selectedColorCount.value.toInt())
+                        PaletteType.LIGHTNESS_PALETTE -> KvColorPalette.instance.generateLightnessColorPalette(givenColor = selectedColor.value, colorCount = selectedColorCount.value.toInt())
+                        PaletteType.SATURATION_PALETTE -> KvColorPalette.instance.generateSaturationColorPalette(givenColor = selectedColor.value, colorCount = selectedColorCount.value.toInt())
                     }
                 }
             ) {
