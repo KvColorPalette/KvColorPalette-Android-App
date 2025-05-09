@@ -1,6 +1,5 @@
 package com.kavi.droid.color.palette.app.ui.common
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -18,6 +17,7 @@ import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -235,6 +235,35 @@ fun ColorStrip(color: Color) {
                 }
             }
         }
+    }
+}
+
+@Composable
+fun ColorCountSelector(selectedColorCount: MutableState<String>) {
+    Row (
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(4.dp)
+            .border(1.dp, Color.White, shape = RoundedCornerShape(8.dp))
+            .shadow(
+                elevation = 10.dp,
+                shape = RoundedCornerShape(8.dp)
+            )
+            .background(Color.White)
+            .padding(4.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            modifier = Modifier
+                .padding(top = 4.dp, bottom = 4.dp, start = 8.dp),
+            text = "Select your color count",
+            style = MaterialTheme.typography.titleMedium,
+            fontSize = 18.sp,
+            color = Color.Black
+        )
+
+        AppDropDown(title = "Color Count", selectableItems = listOf("5", "10", "15", "20", "25", "30"), selectedItem = selectedColorCount)
+
     }
 }
 
