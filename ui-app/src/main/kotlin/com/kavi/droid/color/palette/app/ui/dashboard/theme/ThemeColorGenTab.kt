@@ -47,7 +47,8 @@ fun ThemeColorGenTab(navController: NavHostController, modifier: Modifier) {
             modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight()
-                .verticalScroll(rememberScrollState())
+                .verticalScroll(rememberScrollState()),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             ThemeColorRow(MatPackage.MatRed.color)
             ThemeColorRow(MatPackage.MatOrange.color)

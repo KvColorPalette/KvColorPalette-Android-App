@@ -3,6 +3,7 @@ package com.kavi.droid.color.palette.app.ui.common
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,6 +14,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material3.MaterialTheme
@@ -67,7 +70,8 @@ fun ThemeColorRow(givenColor: Color) {
                 elevation = 10.dp,
                 shape = RoundedCornerShape(8.dp)
             )
-            .background(Color.White),
+            .background(Color.White)
+            .wrapContentWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Box (modifier = Modifier
@@ -86,8 +90,8 @@ fun ThemeColorRow(givenColor: Color) {
                 )
             }
 
-            Column(modifier = Modifier
-                .fillMaxWidth(),
+            Column(modifier = Modifier,
+                //.fillMaxWidth(),
                 verticalArrangement = Arrangement.Center,
             ) {
                 val appThemeColorSet = KvColorPalette.instance.generateThemeColorSchemePalette(
@@ -98,9 +102,8 @@ fun ThemeColorRow(givenColor: Color) {
 
                 Row(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 4.dp, start = 8.dp, end = 8.dp, bottom = 4.dp),
-                    //horizontalArrangement = Arrangement.Center
+                        .padding(top = 4.dp, start = 8.dp, end = 16.dp, bottom = 4.dp)
+                        .horizontalScroll(rememberScrollState()),
                 ) {
                     ColorCircle(appThemeColorSet.lightColorScheme.primary, colorLetter = "P")
                     ColorCircle(appThemeColorSet.lightColorScheme.secondary, colorLetter = "S")
@@ -113,9 +116,8 @@ fun ThemeColorRow(givenColor: Color) {
 
                 Row(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 4.dp, start = 8.dp, end = 8.dp, bottom = 4.dp),
-                    //horizontalArrangement = Arrangement.Center
+                        .padding(top = 4.dp, start = 8.dp, end = 16.dp, bottom = 4.dp)
+                        .horizontalScroll(rememberScrollState()),
                 ) {
                     ColorCircle(appThemeColorSet.darkColorScheme.primary, colorLetter = "P")
                     ColorCircle(appThemeColorSet.darkColorScheme.secondary, colorLetter = "S", letterColor = Color.Black)

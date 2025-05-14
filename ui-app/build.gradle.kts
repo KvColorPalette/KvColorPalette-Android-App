@@ -5,27 +5,30 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
 }
 
+// App Properties
+val appVersionCode: String by project
+val appVersionName: String by project
+val kvColorPaletteApplicationId: String by project
+
 android {
-    namespace = "com.kavi.droid.color.palette.app"
+    namespace = kvColorPaletteApplicationId
     compileSdk = libs.versions.compilerSdkVersion.get().toInt()
 
     defaultConfig {
-        applicationId = "com.kavi.droid.color.palette.app"
+        applicationId = kvColorPaletteApplicationId
         minSdk = libs.versions.minSdkVersion.get().toInt()
         targetSdk = libs.versions.targetSdkVersion.get().toInt()
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = appVersionCode.toInt()
+        versionName = appVersionName
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+            isMinifyEnabled = true
+            isDebuggable = false
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
     compileOptions {
