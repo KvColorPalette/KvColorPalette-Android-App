@@ -107,9 +107,9 @@ fun SelectedColorUI(
             Box(
                 modifier = Modifier
                     .padding(12.dp)
-                    .height(80.dp)
-                    .width(80.dp)
-                    .weight(.25f)
+                    .height(70.dp)
+                    .width(70.dp)
+                    //.weight(.25f)
                     .background(selectedColor.value, shape = MaterialTheme.shapes.large)
                     .border(2.dp, MaterialTheme.colorScheme.primary, RoundedCornerShape(12.dp))
                     .clickable {
@@ -123,6 +123,140 @@ fun SelectedColorUI(
                     modifier = Modifier
                         .align(Alignment.Center)
                 )
+            }
+        }
+    }
+}
+
+@Composable
+fun SelectedColorsUI(
+    firstColorHex: MutableState<TextFieldValue>,
+    secondColorHex: MutableState<TextFieldValue>,
+    selectedFirstColor: MutableState<Color>,
+    selectedSecondColor: MutableState<Color>,
+    showSheetForFirst: MutableState<Boolean>,
+    showSheetForSecond: MutableState<Boolean>
+) {
+
+    Row (
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+            .border(1.dp, Color.White, shape = RoundedCornerShape(8.dp))
+            .shadow(
+                elevation = 10.dp,
+                shape = RoundedCornerShape(8.dp)
+            )
+            .background(Color.White)
+            .padding(12.dp)
+    ) {
+        Row {
+            Column (
+                modifier = Modifier
+                    .weight(.75f)
+            ) {
+                Text(
+                    modifier = Modifier
+                        .padding(top = 4.dp, bottom = 4.dp),
+                    text = "Select your colors",
+                    style = MaterialTheme.typography.titleMedium,
+                    fontSize = 20.sp,
+                    color = Color.Black
+                )
+
+                Text(
+                    text = "Touch on the color box or type your color-hex " +
+                            "on below to pick your primary color to generate color palette.",
+                    textAlign = TextAlign.Start,
+                    color = Color.Gray,
+                    style = MaterialTheme.typography.bodySmall,
+                    fontSize = 10.sp
+                )
+
+                Row {
+                    OutlinedTextField(
+                        modifier = Modifier
+                            .width(120.dp)
+                            .padding(1.dp)
+                            .padding(end = 4.dp),
+                        value = firstColorHex.value,
+                        maxLines = 1,
+                        label = { Text(text = "Color One") },
+                        onValueChange = { newColorHex ->
+                            firstColorHex.value = newColorHex
+                            if (ColorUtil.validateColorHex(newColorHex.text))
+                                selectedFirstColor.value = ColorUtil.getColorFromHex(newColorHex.text)
+                            else {
+                                TextFieldValue("")
+                                println("Not Valid")
+                            }
+                        }
+                    )
+
+                    OutlinedTextField(
+                        modifier = Modifier
+                            .width(120.dp)
+                            .padding(1.dp)
+                            .padding(start = 4.dp),
+                        value = secondColorHex.value,
+                        maxLines = 1,
+                        label = { Text(text = "Color Two") },
+                        onValueChange = { newColorHex ->
+                            secondColorHex.value = newColorHex
+                            if (ColorUtil.validateColorHex(newColorHex.text))
+                                selectedSecondColor.value = ColorUtil.getColorFromHex(newColorHex.text)
+                            else {
+                                TextFieldValue("")
+                                println("Not Valid")
+                            }
+                        }
+                    )
+                }
+
+            }
+
+            Column {
+                // Display the current color in a Box with a MaterialTheme shape
+                Box(
+                    modifier = Modifier
+                        .padding(4.dp)
+                        .height(60.dp)
+                        .width(60.dp)
+                        .background(selectedFirstColor.value, shape = MaterialTheme.shapes.large)
+                        .border(2.dp, MaterialTheme.colorScheme.primary, RoundedCornerShape(12.dp))
+                        .clickable {
+                            showSheetForFirst.value = true
+                        }
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.icon_click_me),
+                        contentDescription = "Select Color",
+                        tint = if (selectedFirstColor.value.isHighLightColor) Color.Black else Color.White,
+                        modifier = Modifier
+                            .align(Alignment.Center)
+                    )
+                }
+
+                // Display the current color in a Box with a MaterialTheme shape
+                Box(
+                    modifier = Modifier
+                        .padding(4.dp)
+                        .height(60.dp)
+                        .width(60.dp)
+                        .background(selectedSecondColor.value, shape = MaterialTheme.shapes.large)
+                        .border(2.dp, MaterialTheme.colorScheme.primary, RoundedCornerShape(12.dp))
+                        .clickable {
+                            showSheetForSecond.value = true
+                        }
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.icon_click_me),
+                        contentDescription = "Select Color",
+                        tint = if (selectedSecondColor.value.isHighLightColor) Color.Black else Color.White,
+                        modifier = Modifier
+                            .align(Alignment.Center)
+                    )
+                }
             }
         }
     }
@@ -185,5 +319,6 @@ fun CommonUIPreview() {
     val colorHex = remember { mutableStateOf(TextFieldValue("")) }
     val showSheet = remember { mutableStateOf(false) }
 
-    SelectedColorUI(colorHex, selectedColor, showSheet)
+    //SelectedColorUI(colorHex, selectedColor, showSheet)
+    SelectedColorsUI(colorHex, colorHex, selectedColor, selectedColor, showSheet, showSheet)
 }
