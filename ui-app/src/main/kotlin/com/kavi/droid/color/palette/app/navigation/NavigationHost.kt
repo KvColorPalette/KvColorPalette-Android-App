@@ -31,8 +31,14 @@ object NavigationHost {
                     PaletteGenDetailUI(paletteType = PaletteType.KV_PALETTE)
                 }
             }
-            composable(route = "theme-gen-detail") {
-                ThemeGenDetailUI()
+            composable(route = "theme-gen-detail/{themeGenType}") { navBackStack ->
+                val themeGenType = navBackStack.arguments?.getString("themeGenType")
+                themeGenType?.let {
+                    when(it) {
+                        "mono-color" -> ThemeGenDetailUI(isMultiColorThemeGen = false)
+                        "multi-color" -> ThemeGenDetailUI(isMultiColorThemeGen = true)
+                    }
+                }
             }
         }
     }

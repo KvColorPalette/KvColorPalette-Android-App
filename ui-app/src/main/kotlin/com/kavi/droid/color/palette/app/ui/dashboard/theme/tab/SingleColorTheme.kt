@@ -37,7 +37,7 @@ fun SingleColorTheme(navController: NavHostController) {
                 .fillMaxWidth(),
             shape = RoundedCornerShape(8.dp),
             onClick = {
-                navController.navigate("theme-gen-detail")
+                navController.navigate("theme-gen-detail/mono-color")
             }
         ) {
             Text("Try it out!")
