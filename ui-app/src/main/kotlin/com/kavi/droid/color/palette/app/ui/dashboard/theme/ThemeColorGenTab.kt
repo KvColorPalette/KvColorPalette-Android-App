@@ -2,29 +2,33 @@ package com.kavi.droid.color.palette.app.ui.dashboard.theme
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.kavi.droid.color.palette.app.theme.Mat500LLBlue
-import com.kavi.droid.color.palette.app.ui.common.ThemeColorRow
-import com.kavi.droid.color.palette.color.MatPackage
+import com.kavi.droid.color.palette.app.ui.dashboard.theme.tab.MultiColorTheme
+import com.kavi.droid.color.palette.app.ui.dashboard.theme.tab.SingleColorTheme
 
 @Composable
 fun ThemeColorGenTab(navController: NavHostController, modifier: Modifier) {
+
+    var selectedTabIndex by rememberSaveable { mutableIntStateOf(0) }
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -43,28 +47,27 @@ fun ThemeColorGenTab(navController: NavHostController, modifier: Modifier) {
             )
         }
 
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight()
-                .verticalScroll(rememberScrollState()),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            ThemeColorRow(MatPackage.MatRed.color)
-            ThemeColorRow(MatPackage.MatOrange.color)
-            ThemeColorRow(MatPackage.MatDGreen.color)
-            ThemeColorRow(MatPackage.MatLLBlue.color)
-
-            Button(
-                modifier = Modifier
-                    .padding(16.dp)
-                    .fillMaxWidth(),
-                shape = RoundedCornerShape(8.dp),
-                onClick = {
-                    navController.navigate("theme-gen-detail")
-                }
+        Column {
+            TabRow(
+                selectedTabIndex = selectedTabIndex,
+                containerColor = Color.Transparent,
+                modifier = Modifier.padding(8.dp)
             ) {
-                Text("Try it out!")
+                Tab(
+                    selected = selectedTabIndex == 0,
+                    onClick = { selectedTabIndex = 0 },
+                    text = { Text("Single Color") },
+                )
+                Tab(
+                    selected = selectedTabIndex == 1,
+                    onClick = { selectedTabIndex = 1 },
+                    text = { Text("Multi Color") }
+                )
+            }
+
+            when (selectedTabIndex) {
+                0 -> SingleColorTheme(navController)
+                1 -> MultiColorTheme(navController)
             }
         }
     }

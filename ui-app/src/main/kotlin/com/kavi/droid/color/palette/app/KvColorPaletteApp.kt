@@ -21,9 +21,11 @@ class KvColorPaletteApp: Application() {
             AppDatastore.retrieveString(AppDatastore.APP_THEME_BASE_COLOR).collect { themeColor ->
                 // Initialize the kv color palette
                 if (themeColor != "NULL") {
-                    KvColorPalette.initialize(basicColor = ColorUtil.getColorFromHex(themeColor))
+                    KvColorPalette.initialize(baseColor = ColorUtil.getColorFromHex(themeColor))
+                    //KvColorPalette.initialize(baseColor = ColorUtil.getColorFromHex(themeColor), secondColor = ColorUtil.getColorFromHex("#283593"), themeGenPattern = ThemeGenPattern.BLEND)
+                    //KvColorPalette.initialize(baseColor = ColorUtil.getColorFromHex("#1e88e5"), secondColor = ColorUtil.getColorFromHex("#ff6f00"), themeGenPattern = ThemeGenPattern.BLEND)
                 } else {
-                    KvColorPalette.initialize(basicColor = MatPackage.MatDGreen.color)
+                    KvColorPalette.initialize(baseColor = MatPackage.MatDGreen.color)
                 }
             }
         }

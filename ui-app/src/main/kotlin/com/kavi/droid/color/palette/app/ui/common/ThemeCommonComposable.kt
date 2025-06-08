@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.sp
 import com.kavi.droid.color.palette.KvColorPalette
 import com.kavi.droid.color.palette.extension.isHighLightColor
 import com.kavi.droid.color.palette.extension.quaternary
+import com.kavi.droid.color.palette.model.ThemeGenPattern
 import com.kavi.droid.color.palette.util.ColorUtil
 
 @Composable
@@ -59,7 +60,11 @@ fun ColorCircle(givenColor: Color, colorLetter: String = "", letterColor: Color 
 }
 
 @Composable
-fun ThemeColorRow(givenColor: Color) {
+fun ThemeColorRow(givenColor: Color,
+                  secondColor: Color? = null,
+                  bias: Float = 0.5f,
+                  themeGenPattern: ThemeGenPattern = ThemeGenPattern.SEQUENCE
+) {
     Box(
         modifier = Modifier
             .padding(10.dp)
@@ -94,9 +99,18 @@ fun ThemeColorRow(givenColor: Color) {
                 //.fillMaxWidth(),
                 verticalArrangement = Arrangement.Center,
             ) {
-                val appThemeColorSet = KvColorPalette.instance.generateThemeColorSchemePalette(
-                    givenColor = givenColor,
-                )
+                val appThemeColorSet = secondColor?.let {
+                    KvColorPalette.instance.generateMultiColorThemeColorSchemePalette(
+                        givenColor = givenColor,
+                        secondColor = it,
+                        bias = bias,
+                        themeGenPattern = themeGenPattern
+                    )
+                }?: run {
+                    KvColorPalette.instance.generateThemeColorSchemePalette(
+                        givenColor = givenColor
+                    )
+                }
 
                 Text("Light Theme", Modifier.padding(top = 8.dp, start = 8.dp), style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.ExtraBold, color = Color.Black)
 
