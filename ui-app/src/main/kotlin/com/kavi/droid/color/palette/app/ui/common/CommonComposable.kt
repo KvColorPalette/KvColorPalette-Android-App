@@ -3,6 +3,8 @@ package com.kavi.droid.color.palette.app.ui.common
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -20,10 +22,14 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MenuAnchorType
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Slider
+import androidx.compose.material3.SliderColors
+import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -32,10 +38,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.TransformOrigin
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.layout.layout
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kavi.droid.color.palette.app.R
@@ -135,7 +145,8 @@ fun SelectedColorsUI(
     selectedFirstColor: MutableState<Color>,
     selectedSecondColor: MutableState<Color>,
     showSheetForFirst: MutableState<Boolean>,
-    showSheetForSecond: MutableState<Boolean>
+    showSheetForSecond: MutableState<Boolean>,
+    biasValue: MutableState<Float> = mutableFloatStateOf(0.5f)
 ) {
 
     Row (
@@ -215,47 +226,91 @@ fun SelectedColorsUI(
 
             }
 
-            Column {
-                // Display the current color in a Box with a MaterialTheme shape
-                Box(
-                    modifier = Modifier
-                        .padding(4.dp)
-                        .height(60.dp)
-                        .width(60.dp)
-                        .background(selectedFirstColor.value, shape = MaterialTheme.shapes.large)
-                        .border(2.dp, MaterialTheme.colorScheme.primary, RoundedCornerShape(12.dp))
-                        .clickable {
-                            showSheetForFirst.value = true
-                        }
+            Row  {
+                Column(
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally,
+
                 ) {
-                    Icon(
-                        painter = painterResource(R.drawable.icon_click_me),
-                        contentDescription = "Select Color",
-                        tint = if (selectedFirstColor.value.isHighLightColor) Color.Black else Color.White,
+                    var value by remember { mutableFloatStateOf(.5f) }
+
+                    AppVerticalSlider(
                         modifier = Modifier
-                            .align(Alignment.Center)
+                            .width(128.dp)
+                            .height(50.dp)
+                            .padding(top = 8.dp, end = 6.dp, start = 4.dp),
+                        value = value,
+                        colors = SliderDefaults.colors(
+                            thumbColor = MaterialTheme.colorScheme.primary,
+                            activeTrackColor = MaterialTheme.colorScheme.tertiary,
+                            inactiveTrackColor = MaterialTheme.colorScheme.tertiary
+                        ),
+                        onValueChange = { value = it },
+                        onValueChangeFinished = {
+                            biasValue.value = (1f - value)
+                        }
                     )
                 }
 
-                // Display the current color in a Box with a MaterialTheme shape
-                Box(
+                Column (
                     modifier = Modifier
-                        .padding(4.dp)
-                        .height(60.dp)
-                        .width(60.dp)
-                        .background(selectedSecondColor.value, shape = MaterialTheme.shapes.large)
-                        .border(2.dp, MaterialTheme.colorScheme.primary, RoundedCornerShape(12.dp))
-                        .clickable {
-                            showSheetForSecond.value = true
-                        }
+                        .padding(start = 16.dp)
                 ) {
-                    Icon(
-                        painter = painterResource(R.drawable.icon_click_me),
-                        contentDescription = "Select Color",
-                        tint = if (selectedSecondColor.value.isHighLightColor) Color.Black else Color.White,
+                    // Display the current color in a Box with a MaterialTheme shape
+                    Box(
                         modifier = Modifier
-                            .align(Alignment.Center)
-                    )
+                            .padding(4.dp)
+                            .height(60.dp)
+                            .width(60.dp)
+                            .background(
+                                selectedFirstColor.value,
+                                shape = MaterialTheme.shapes.large
+                            )
+                            .border(
+                                2.dp,
+                                MaterialTheme.colorScheme.primary,
+                                RoundedCornerShape(12.dp)
+                            )
+                            .clickable {
+                                showSheetForFirst.value = true
+                            }
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.icon_click_me),
+                            contentDescription = "Select Color",
+                            tint = if (selectedFirstColor.value.isHighLightColor) Color.Black else Color.White,
+                            modifier = Modifier
+                                .align(Alignment.Center)
+                        )
+                    }
+
+                    // Display the current color in a Box with a MaterialTheme shape
+                    Box(
+                        modifier = Modifier
+                            .padding(4.dp)
+                            .height(60.dp)
+                            .width(60.dp)
+                            .background(
+                                selectedSecondColor.value,
+                                shape = MaterialTheme.shapes.large
+                            )
+                            .border(
+                                2.dp,
+                                MaterialTheme.colorScheme.primary,
+                                RoundedCornerShape(12.dp)
+                            )
+                            .clickable {
+                                showSheetForSecond.value = true
+                            }
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.icon_click_me),
+                            contentDescription = "Select Color",
+                            tint = if (selectedSecondColor.value.isHighLightColor) Color.Black else Color.White,
+                            modifier = Modifier
+                                .align(Alignment.Center)
+                        )
+                    }
                 }
             }
         }
@@ -310,6 +365,50 @@ fun AppDropDown(title: String, selectableItems: List<String>, selectedItem: Muta
             }
         }
     }
+}
+
+@Composable
+fun AppVerticalSlider(
+    modifier: Modifier = Modifier,
+    value: Float,
+    onValueChange: (Float) -> Unit,
+    valueRange: ClosedFloatingPointRange<Float> = 0f..1f,
+    steps: Int = 0,
+    enabled: Boolean = true,
+    onValueChangeFinished: (() -> Unit)? = null,
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    colors: SliderColors = SliderDefaults.colors()
+) {
+    Slider(
+        colors = colors,
+        interactionSource = interactionSource,
+        onValueChangeFinished = onValueChangeFinished,
+        enabled = enabled,
+        value = value,
+        valueRange = valueRange,
+        steps = steps,
+        onValueChange = onValueChange,
+        modifier = Modifier
+            .padding(2.dp)
+            .graphicsLayer {
+                rotationZ = 270f
+                transformOrigin = TransformOrigin(0f, 0f)
+            }
+            .layout { measurable, constraints ->
+                val placeable = measurable.measure(
+                    Constraints(
+                        minWidth = constraints.minHeight,
+                        maxWidth = constraints.maxWidth,
+                        minHeight = constraints.minHeight,
+                        maxHeight = constraints.minHeight
+                    )
+                )
+                layout(placeable.height, placeable.width) {
+                    placeable.place(-placeable.width, 0)
+                }
+            }
+            .then(modifier)
+    )
 }
 
 @Preview(showBackground = true)
