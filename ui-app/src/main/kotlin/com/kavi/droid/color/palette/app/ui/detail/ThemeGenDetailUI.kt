@@ -38,7 +38,7 @@ import com.kavi.droid.color.palette.app.ui.common.ThemeColorItem
 import com.kavi.droid.color.palette.extension.quaternary
 import com.kavi.droid.color.palette.extension.shadow
 import com.kavi.droid.color.palette.model.ColorSchemeThemePalette
-import com.kavi.droid.color.palette.model.ThemeGenPattern
+import com.kavi.droid.color.palette.model.ThemeGenMode
 import com.kavi.droid.color.palette.util.ColorUtil
 import com.kavi.droid.color.picker.ui.KvColorPickerBottomSheet
 
@@ -56,6 +56,7 @@ fun ThemeGenDetailUI(isMultiColorThemeGen: Boolean = false) {
     val showSheetForSecondColor = remember { mutableStateOf(false) }
     val sheetStateForSecondColor = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
+    val selectedThemeGenMode = remember { mutableStateOf(ThemeGenMode.SEQUENCE.name) }
     val biasValue = remember { mutableFloatStateOf(0.5f) }
 
     Scaffold { innerPadding ->
@@ -82,7 +83,7 @@ fun ThemeGenDetailUI(isMultiColorThemeGen: Boolean = false) {
             if (isMultiColorThemeGen)
                 SelectedColorsUI(firstColorHex, secondColorHex,
                     selectedFirstColor, selectedSecondColor,
-                    showSheetForFirstColor, showSheetForSecondColor, biasValue)
+                    showSheetForFirstColor, showSheetForSecondColor, selectedThemeGenMode, biasValue)
             else
                 SelectedColorUI(firstColorHex, selectedFirstColor, showSheetForFirstColor)
 
@@ -108,11 +109,17 @@ fun ThemeGenDetailUI(isMultiColorThemeGen: Boolean = false) {
                     .fillMaxWidth(),
                 shape = RoundedCornerShape(8.dp),
                 onClick = {
+                    val themeGenMode = when(selectedThemeGenMode.value) {
+                        ThemeGenMode.SEQUENCE.name -> ThemeGenMode.SEQUENCE
+                        ThemeGenMode.BLEND.name -> ThemeGenMode.BLEND
+                        else -> ThemeGenMode.SEQUENCE
+                    }
+
                     themeColorPalette = if (isMultiColorThemeGen)
                         KvColorPalette.instance.generateMultiColorThemeColorSchemePalette(
                             givenColor = selectedFirstColor.value,
                             secondColor = selectedSecondColor.value,
-                            bias = biasValue.floatValue, themeGenPattern = ThemeGenPattern.BLEND)
+                            bias = biasValue.floatValue, themeGenMode = themeGenMode)
                     else
                         KvColorPalette.instance.generateThemeColorSchemePalette(givenColor = selectedFirstColor.value)
                 }

@@ -50,6 +50,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kavi.droid.color.palette.app.R
 import com.kavi.droid.color.palette.extension.isHighLightColor
+import com.kavi.droid.color.palette.model.ThemeGenMode
 import com.kavi.droid.color.palette.util.ColorUtil
 
 @Composable
@@ -146,6 +147,7 @@ fun SelectedColorsUI(
     selectedSecondColor: MutableState<Color>,
     showSheetForFirst: MutableState<Boolean>,
     showSheetForSecond: MutableState<Boolean>,
+    selectedThemeGenMode: MutableState<String> = mutableStateOf(ThemeGenMode.SEQUENCE.name),
     biasValue: MutableState<Float> = mutableFloatStateOf(0.5f)
 ) {
 
@@ -161,157 +163,181 @@ fun SelectedColorsUI(
             .background(Color.White)
             .padding(12.dp)
     ) {
-        Row {
-            Column (
-                modifier = Modifier
-                    .weight(.75f)
-            ) {
-                Text(
-                    modifier = Modifier
-                        .padding(top = 4.dp, bottom = 4.dp),
-                    text = "Select your colors",
-                    style = MaterialTheme.typography.titleMedium,
-                    fontSize = 20.sp,
-                    color = Color.Black
-                )
-
-                Text(
-                    text = "Touch on the color box or type your color-hex " +
-                            "on below to pick your primary color to generate color palette.",
-                    textAlign = TextAlign.Start,
-                    color = Color.Gray,
-                    style = MaterialTheme.typography.bodySmall,
-                    fontSize = 10.sp
-                )
-
-                Row {
-                    OutlinedTextField(
-                        modifier = Modifier
-                            .width(120.dp)
-                            .padding(1.dp)
-                            .padding(end = 4.dp),
-                        value = firstColorHex.value,
-                        maxLines = 1,
-                        label = { Text(text = "Color One") },
-                        onValueChange = { newColorHex ->
-                            firstColorHex.value = newColorHex
-                            if (ColorUtil.validateColorHex(newColorHex.text))
-                                selectedFirstColor.value = ColorUtil.getColorFromHex(newColorHex.text)
-                            else {
-                                TextFieldValue("")
-                                println("Not Valid")
-                            }
-                        }
-                    )
-
-                    OutlinedTextField(
-                        modifier = Modifier
-                            .width(120.dp)
-                            .padding(1.dp)
-                            .padding(start = 4.dp),
-                        value = secondColorHex.value,
-                        maxLines = 1,
-                        label = { Text(text = "Color Two") },
-                        onValueChange = { newColorHex ->
-                            secondColorHex.value = newColorHex
-                            if (ColorUtil.validateColorHex(newColorHex.text))
-                                selectedSecondColor.value = ColorUtil.getColorFromHex(newColorHex.text)
-                            else {
-                                TextFieldValue("")
-                                println("Not Valid")
-                            }
-                        }
-                    )
-                }
-
-            }
-
-            Row  {
-                Column(
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally,
-
-                ) {
-                    var value by remember { mutableFloatStateOf(.5f) }
-
-                    AppVerticalSlider(
-                        modifier = Modifier
-                            .width(128.dp)
-                            .height(50.dp)
-                            .padding(top = 8.dp, end = 6.dp, start = 4.dp),
-                        value = value,
-                        colors = SliderDefaults.colors(
-                            thumbColor = MaterialTheme.colorScheme.primary,
-                            activeTrackColor = MaterialTheme.colorScheme.tertiary,
-                            inactiveTrackColor = MaterialTheme.colorScheme.tertiary
-                        ),
-                        onValueChange = { value = it },
-                        onValueChangeFinished = {
-                            biasValue.value = (1f - value)
-                        }
-                    )
-                }
-
+        Column {
+            Row {
                 Column (
                     modifier = Modifier
-                        .padding(start = 16.dp)
+                        .weight(.75f)
                 ) {
-                    // Display the current color in a Box with a MaterialTheme shape
-                    Box(
+                    Text(
                         modifier = Modifier
-                            .padding(4.dp)
-                            .height(60.dp)
-                            .width(60.dp)
-                            .background(
-                                selectedFirstColor.value,
-                                shape = MaterialTheme.shapes.large
-                            )
-                            .border(
-                                2.dp,
-                                MaterialTheme.colorScheme.primary,
-                                RoundedCornerShape(12.dp)
-                            )
-                            .clickable {
-                                showSheetForFirst.value = true
-                            }
-                    ) {
-                        Icon(
-                            painter = painterResource(R.drawable.icon_click_me),
-                            contentDescription = "Select Color",
-                            tint = if (selectedFirstColor.value.isHighLightColor) Color.Black else Color.White,
+                            .padding(top = 4.dp, bottom = 4.dp),
+                        text = "Select theme properties",
+                        style = MaterialTheme.typography.titleMedium,
+                        fontSize = 20.sp,
+                        color = Color.Black
+                    )
+
+                    Text(
+                        text = "Touch on the color box or type your color-hex " +
+                                "on below to pick your primary color to generate color palette.",
+                        textAlign = TextAlign.Start,
+                        color = Color.Gray,
+                        style = MaterialTheme.typography.bodySmall,
+                        fontSize = 10.sp
+                    )
+
+                    Row {
+                        OutlinedTextField(
                             modifier = Modifier
-                                .align(Alignment.Center)
+                                .width(120.dp)
+                                .padding(1.dp)
+                                .padding(end = 4.dp),
+                            value = firstColorHex.value,
+                            maxLines = 1,
+                            label = { Text(text = "Color One") },
+                            onValueChange = { newColorHex ->
+                                firstColorHex.value = newColorHex
+                                if (ColorUtil.validateColorHex(newColorHex.text))
+                                    selectedFirstColor.value = ColorUtil.getColorFromHex(newColorHex.text)
+                                else {
+                                    TextFieldValue("")
+                                    println("Not Valid")
+                                }
+                            }
+                        )
+
+                        OutlinedTextField(
+                            modifier = Modifier
+                                .width(120.dp)
+                                .padding(1.dp)
+                                .padding(start = 4.dp),
+                            value = secondColorHex.value,
+                            maxLines = 1,
+                            label = { Text(text = "Color Two") },
+                            onValueChange = { newColorHex ->
+                                secondColorHex.value = newColorHex
+                                if (ColorUtil.validateColorHex(newColorHex.text))
+                                    selectedSecondColor.value = ColorUtil.getColorFromHex(newColorHex.text)
+                                else {
+                                    TextFieldValue("")
+                                    println("Not Valid")
+                                }
+                            }
                         )
                     }
 
-                    // Display the current color in a Box with a MaterialTheme shape
-                    Box(
-                        modifier = Modifier
-                            .padding(4.dp)
-                            .height(60.dp)
-                            .width(60.dp)
-                            .background(
-                                selectedSecondColor.value,
-                                shape = MaterialTheme.shapes.large
-                            )
-                            .border(
-                                2.dp,
-                                MaterialTheme.colorScheme.primary,
-                                RoundedCornerShape(12.dp)
-                            )
-                            .clickable {
-                                showSheetForSecond.value = true
-                            }
-                    ) {
-                        Icon(
-                            painter = painterResource(R.drawable.icon_click_me),
-                            contentDescription = "Select Color",
-                            tint = if (selectedSecondColor.value.isHighLightColor) Color.Black else Color.White,
+                }
+
+                Row  {
+                    Column(
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally,
+
+                        ) {
+                        var value by remember { mutableFloatStateOf(.5f) }
+
+                        AppVerticalSlider(
                             modifier = Modifier
-                                .align(Alignment.Center)
+                                .width(128.dp)
+                                .height(50.dp)
+                                .padding(top = 8.dp, end = 6.dp, start = 4.dp),
+                            value = value,
+                            colors = SliderDefaults.colors(
+                                thumbColor = MaterialTheme.colorScheme.primary,
+                                activeTrackColor = MaterialTheme.colorScheme.tertiary,
+                                inactiveTrackColor = MaterialTheme.colorScheme.tertiary
+                            ),
+                            onValueChange = { value = it },
+                            onValueChangeFinished = {
+                                biasValue.value = (1f - value)
+                            }
                         )
                     }
+
+                    Column (
+                        modifier = Modifier
+                            .padding(start = 16.dp)
+                    ) {
+                        // Display the current color in a Box with a MaterialTheme shape
+                        Box(
+                            modifier = Modifier
+                                .padding(4.dp)
+                                .height(60.dp)
+                                .width(60.dp)
+                                .background(
+                                    selectedFirstColor.value,
+                                    shape = MaterialTheme.shapes.large
+                                )
+                                .border(
+                                    2.dp,
+                                    MaterialTheme.colorScheme.primary,
+                                    RoundedCornerShape(12.dp)
+                                )
+                                .clickable {
+                                    showSheetForFirst.value = true
+                                }
+                        ) {
+                            Icon(
+                                painter = painterResource(R.drawable.icon_click_me),
+                                contentDescription = "Select Color",
+                                tint = if (selectedFirstColor.value.isHighLightColor) Color.Black else Color.White,
+                                modifier = Modifier
+                                    .align(Alignment.Center)
+                            )
+                        }
+
+                        // Display the current color in a Box with a MaterialTheme shape
+                        Box(
+                            modifier = Modifier
+                                .padding(4.dp)
+                                .height(60.dp)
+                                .width(60.dp)
+                                .background(
+                                    selectedSecondColor.value,
+                                    shape = MaterialTheme.shapes.large
+                                )
+                                .border(
+                                    2.dp,
+                                    MaterialTheme.colorScheme.primary,
+                                    RoundedCornerShape(12.dp)
+                                )
+                                .clickable {
+                                    showSheetForSecond.value = true
+                                }
+                        ) {
+                            Icon(
+                                painter = painterResource(R.drawable.icon_click_me),
+                                contentDescription = "Select Color",
+                                tint = if (selectedSecondColor.value.isHighLightColor) Color.Black else Color.White,
+                                modifier = Modifier
+                                    .align(Alignment.Center)
+                            )
+                        }
+                    }
                 }
+            }
+
+            Row {
+                AppDropDown(
+                    modifier = Modifier.weight(1f),
+                    title = "Theme Pattern",
+                    selectableItems = listOf(ThemeGenMode.SEQUENCE.name, ThemeGenMode.BLEND.name),
+                    selectedItem = selectedThemeGenMode
+                )
+
+                OutlinedTextField(
+                    modifier = Modifier
+                        .width(120.dp)
+                        .padding(1.dp)
+                        .padding(start = 4.dp),
+                    value = biasValue.value.toString(),
+                    maxLines = 1,
+                    label = { Text(text = "Bias") },
+                    onValueChange = { newColorHex ->
+                        biasValue.value = newColorHex.toFloat()
+                    }
+                )
             }
         }
     }
@@ -319,18 +345,19 @@ fun SelectedColorsUI(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppDropDown(title: String, selectableItems: List<String>, selectedItem: MutableState<String>) {
+fun AppDropDown(
+    modifier: Modifier = Modifier,
+    title: String,
+    selectableItems: List<String>,
+    selectedItem: MutableState<String>
+) {
     var expanded by remember { mutableStateOf(false) }
 
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp)
-    ) {
+    Box {
         ExposedDropdownMenuBox(
             expanded = expanded,
             onExpandedChange = { expanded = !expanded },
-            modifier = Modifier.fillMaxWidth()
+            modifier = modifier
         ) {
             OutlinedTextField(
                 value = selectedItem.value,
@@ -341,12 +368,11 @@ fun AppDropDown(title: String, selectableItems: List<String>, selectedItem: Muta
                     Icon(
                         imageVector = Icons.Default.ArrowDropDown,
                         contentDescription = "Dropdown",
-                        modifier = Modifier
+                        modifier = modifier
                             .rotate(if (expanded) 180f else 0f)
                     )
                 },
-                modifier = Modifier
-                    .fillMaxWidth()
+                modifier = modifier
                     .menuAnchor(MenuAnchorType.PrimaryNotEditable)
             )
             ExposedDropdownMenu(

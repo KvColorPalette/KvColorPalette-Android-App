@@ -22,7 +22,7 @@ class KvColorPaletteApp: Application() {
                 // Initialize the kv color palette
                 if (themeColor != "NULL") {
                     KvColorPalette.initialize(baseColor = ColorUtil.getColorFromHex(themeColor))
-                    //KvColorPalette.initialize(baseColor = ColorUtil.getColorFromHex(themeColor), secondColor = ColorUtil.getColorFromHex("#283593"), themeGenPattern = ThemeGenPattern.BLEND)
+                    //KvColorPalette.initialize(baseColor = ColorUtil.getColorFromHex(themeColor), secondColor = ColorUtil.getColorFromHex("#283593"), bias = 0.6f, themeGenPattern = ThemeGenPattern.BLEND)
                     //KvColorPalette.initialize(baseColor = ColorUtil.getColorFromHex("#1e88e5"), secondColor = ColorUtil.getColorFromHex("#ff6f00"), themeGenPattern = ThemeGenPattern.BLEND)
                 } else {
                     KvColorPalette.initialize(baseColor = MatPackage.MatDGreen.color)

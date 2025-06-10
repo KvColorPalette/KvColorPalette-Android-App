@@ -18,7 +18,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.kavi.droid.color.palette.app.ui.common.ThemeColorRow
 import com.kavi.droid.color.palette.color.MatPackage
-import com.kavi.droid.color.palette.model.ThemeGenPattern
+import com.kavi.droid.color.palette.model.ThemeGenMode
 import com.kavi.droid.color.palette.util.ColorUtil
 
 @Composable
@@ -30,10 +30,10 @@ fun MultiColorTheme(navController: NavHostController) {
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        ThemeColorRow(MatPackage.MatRed.color, MatPackage.MatDBlue.color, .8f, ThemeGenPattern.BLEND)
-        ThemeColorRow(MatPackage.MatRed.color, MatPackage.MatDBlue.color, .8f, ThemeGenPattern.SEQUENCE)
-        ThemeColorRow(MatPackage.MatOrange.color, ColorUtil.getColorFromHex("#800000"), bias = .5f, themeGenPattern = ThemeGenPattern.BLEND)
-        ThemeColorRow(MatPackage.MatOrange.color, ColorUtil.getColorFromHex("#800000"), bias = .5f, themeGenPattern = ThemeGenPattern.SEQUENCE)
+        ThemeColorRow(MatPackage.MatRed.color, MatPackage.MatDBlue.color, .8f, ThemeGenMode.BLEND)
+        ThemeColorRow(MatPackage.MatRed.color, MatPackage.MatDBlue.color, .8f, ThemeGenMode.SEQUENCE)
+        ThemeColorRow(MatPackage.MatOrange.color, ColorUtil.getColorFromHex("#800000"), bias = .5f, themeGenMode = ThemeGenMode.BLEND)
+        ThemeColorRow(MatPackage.MatOrange.color, ColorUtil.getColorFromHex("#800000"), bias = .5f, themeGenMode = ThemeGenMode.SEQUENCE)
         ThemeColorRow(MatPackage.MatDGreen.color, MatPackage.MatDCyan.color)
         ThemeColorRow(MatPackage.MatLLBlue.color, MatPackage.MatGold.color)
 
