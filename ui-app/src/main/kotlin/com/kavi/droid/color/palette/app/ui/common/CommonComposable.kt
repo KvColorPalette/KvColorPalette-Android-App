@@ -26,6 +26,7 @@ import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderColors
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
@@ -99,6 +100,14 @@ fun SelectedColorUI(
                     modifier = Modifier
                         .width(200.dp)
                         .padding(1.dp),
+                    colors = TextFieldDefaults.colors(
+                        unfocusedTextColor = Color.Black,
+                        focusedTextColor = MaterialTheme.colorScheme.tertiary,
+                        unfocusedContainerColor = Color.White,
+                        focusedContainerColor = Color.White,
+                        focusedIndicatorColor = MaterialTheme.colorScheme.tertiary,
+                        unfocusedIndicatorColor = MaterialTheme.colorScheme.tertiary
+                    ),
                     value = colorHex.value,
                     maxLines = 1,
                     label = { Text(text = "Color Hex") },
@@ -179,6 +188,8 @@ fun SelectedColorsUI(
                     )
 
                     Text(
+                        modifier = Modifier
+                            .padding(end = 6.dp),
                         text = "Touch on the color box or type your color-hex " +
                                 "on below to pick your primary color to generate color palette.",
                         textAlign = TextAlign.Start,
@@ -190,12 +201,21 @@ fun SelectedColorsUI(
                     Row {
                         OutlinedTextField(
                             modifier = Modifier
-                                .width(120.dp)
+                                .weight(.5f)
+                                .width(100.dp)
                                 .padding(1.dp)
                                 .padding(end = 4.dp),
+                            colors = TextFieldDefaults.colors(
+                                unfocusedTextColor = Color.Black,
+                                focusedTextColor = MaterialTheme.colorScheme.tertiary,
+                                unfocusedContainerColor = Color.White,
+                                focusedContainerColor = Color.White,
+                                focusedIndicatorColor = MaterialTheme.colorScheme.tertiary,
+                                unfocusedIndicatorColor = MaterialTheme.colorScheme.tertiary
+                            ),
                             value = firstColorHex.value,
                             maxLines = 1,
-                            label = { Text(text = "Color One") },
+                            label = { Text(text = "Color #1") },
                             onValueChange = { newColorHex ->
                                 firstColorHex.value = newColorHex
                                 if (ColorUtil.validateColorHex(newColorHex.text))
@@ -209,12 +229,21 @@ fun SelectedColorsUI(
 
                         OutlinedTextField(
                             modifier = Modifier
-                                .width(120.dp)
+                                .weight(.5f)
+                                .width(100.dp)
                                 .padding(1.dp)
-                                .padding(start = 4.dp),
+                                .padding(end = 8.dp),
+                            colors = TextFieldDefaults.colors(
+                                unfocusedTextColor = Color.Black,
+                                focusedTextColor = MaterialTheme.colorScheme.tertiary,
+                                unfocusedContainerColor = Color.White,
+                                focusedContainerColor = Color.White,
+                                focusedIndicatorColor = MaterialTheme.colorScheme.tertiary,
+                                unfocusedIndicatorColor = MaterialTheme.colorScheme.tertiary
+                            ),
                             value = secondColorHex.value,
                             maxLines = 1,
-                            label = { Text(text = "Color Two") },
+                            label = { Text(text = "Color #2") },
                             onValueChange = { newColorHex ->
                                 secondColorHex.value = newColorHex
                                 if (ColorUtil.validateColorHex(newColorHex.text))
@@ -318,26 +347,35 @@ fun SelectedColorsUI(
                 }
             }
 
-            Row {
-                AppDropDown(
-                    modifier = Modifier.weight(1f),
-                    title = "Theme Pattern",
-                    selectableItems = listOf(ThemeGenMode.SEQUENCE.name, ThemeGenMode.BLEND.name),
-                    selectedItem = selectedThemeGenMode
-                )
-
-                OutlinedTextField(
-                    modifier = Modifier
-                        .width(120.dp)
-                        .padding(1.dp)
-                        .padding(start = 4.dp),
-                    value = biasValue.value.toString(),
-                    maxLines = 1,
-                    label = { Text(text = "Bias") },
-                    onValueChange = { newColorHex ->
-                        biasValue.value = newColorHex.toFloat()
-                    }
-                )
+            Row (modifier = Modifier.fillMaxWidth()) {
+                Column (modifier = Modifier.weight(.65f)) {
+                    AppDropDown(
+                        title = "Theme Pattern",
+                        selectableItems = listOf(ThemeGenMode.SEQUENCE.name, ThemeGenMode.BLEND.name),
+                        selectedItem = selectedThemeGenMode
+                    )
+                }
+                Column (modifier = Modifier.weight(.35f)) {
+                    OutlinedTextField(
+                        modifier = Modifier
+                            .padding(1.dp)
+                            .padding(start = 4.dp),
+                        colors = TextFieldDefaults.colors(
+                            unfocusedTextColor = Color.Black,
+                            focusedTextColor = MaterialTheme.colorScheme.tertiary,
+                            unfocusedContainerColor = Color.White,
+                            focusedContainerColor = Color.White,
+                            focusedIndicatorColor = MaterialTheme.colorScheme.tertiary,
+                            unfocusedIndicatorColor = MaterialTheme.colorScheme.tertiary
+                        ),
+                        value = biasValue.value.toString(),
+                        maxLines = 1,
+                        label = { Text(text = "Bias") },
+                        onValueChange = { newColorHex ->
+                            biasValue.value = newColorHex.toFloat()
+                        }
+                    )
+                }
             }
         }
     }
@@ -372,6 +410,14 @@ fun AppDropDown(
                             .rotate(if (expanded) 180f else 0f)
                     )
                 },
+                colors = TextFieldDefaults.colors(
+                    unfocusedTextColor = Color.Black,
+                    focusedTextColor = MaterialTheme.colorScheme.tertiary,
+                    unfocusedContainerColor = Color.White,
+                    focusedContainerColor = Color.White,
+                    focusedIndicatorColor = MaterialTheme.colorScheme.tertiary,
+                    unfocusedIndicatorColor = MaterialTheme.colorScheme.tertiary
+                ),
                 modifier = modifier
                     .menuAnchor(MenuAnchorType.PrimaryNotEditable)
             )

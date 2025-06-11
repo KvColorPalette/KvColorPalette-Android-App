@@ -56,12 +56,12 @@ fun ThemeColorGenTab(navController: NavHostController, modifier: Modifier) {
                 Tab(
                     selected = selectedTabIndex == 0,
                     onClick = { selectedTabIndex = 0 },
-                    text = { Text("Single Color") },
+                    text = { Text("Single Color", color = MaterialTheme.colorScheme.tertiary) },
                 )
                 Tab(
                     selected = selectedTabIndex == 1,
                     onClick = { selectedTabIndex = 1 },
-                    text = { Text("Multi Color") }
+                    text = { Text("Multi Color", color = MaterialTheme.colorScheme.tertiary) }
                 )
             }
 
