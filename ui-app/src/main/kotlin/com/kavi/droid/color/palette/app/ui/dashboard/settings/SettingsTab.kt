@@ -23,6 +23,7 @@ import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -54,6 +55,8 @@ fun SettingsTab(modifier: Modifier, colorScheme: MutableState<ColorScheme?>) {
     val colorPickerState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
     val selectedColor = remember { mutableStateOf(Color.White) }
+    val isSingleColorThemeSelected = remember { mutableStateOf(true) }
+    val isMultiColorThemeSelected = remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         CoroutineScope(Dispatchers.Main).launch {
@@ -98,30 +101,118 @@ fun SettingsTab(modifier: Modifier, colorScheme: MutableState<ColorScheme?>) {
                     elevation = 10.dp,
                     shape = RoundedCornerShape(8.dp)
                 )
-                .background(MaterialTheme.colorScheme.tertiary)
-                .clickable {
-                    showColorPicker.value = true
-                },
+                .background(MaterialTheme.colorScheme.tertiary),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
-                    text = "Current Theme",
-                    modifier = Modifier.padding(start = 16.dp),
-                    fontSize = 18.sp
+                Column {
+                    Row (verticalAlignment = Alignment.CenterVertically) {
+                        Text(
+                            text = "Single color Theme",
+                            modifier = Modifier.padding(start = 16.dp),
+                            fontSize = 18.sp
+                        )
+                        Spacer(modifier = Modifier.weight(1f))
+                        Box (
+                            modifier = Modifier
+                                .padding(end = 4.dp)
+                                .width(35.dp)
+                                .height(35.dp)
+                                .background(selectedColor.value, shape = RoundedCornerShape(8.dp))
+                                .border(2.dp, MaterialTheme.colorScheme.primary, RoundedCornerShape(8.dp))
+                                .clickable {
+                                    showColorPicker.value = true
+                                }
+                        )
+                        Switch(
+                            modifier = Modifier.padding(end = 8.dp, start = 4.dp),
+                            checked = isSingleColorThemeSelected.value, onCheckedChange = { onChecked ->
+                                if (onChecked) {
+                                    isSingleColorThemeSelected.value = true
+                                    isMultiColorThemeSelected.value = false
+                                }
+                            }
+                        )
+                    }
+                }
+            }
+
+            Row(modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 12.dp)
+                .height(100.dp)
+                .border(1.dp, MaterialTheme.colorScheme.tertiary, shape = RoundedCornerShape(8.dp))
+                .shadow(
+                    elevation = 10.dp,
+                    shape = RoundedCornerShape(8.dp)
                 )
-                Spacer(modifier = Modifier.weight(1f))
-                Box (
-                    modifier = Modifier
-                        .width(35.dp)
-                        .height(35.dp)
-                        .background(selectedColor.value, shape = RoundedCornerShape(8.dp))
-                        .border(2.dp, MaterialTheme.colorScheme.primary, RoundedCornerShape(8.dp))
-                )
-                Icon(
-                    Icons.Default.PlayArrow,
-                    contentDescription = "",
-                    modifier = Modifier.padding(start = 8.dp, end = 12.dp)
-                )
+                .background(MaterialTheme.colorScheme.tertiary),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Column {
+                    Row (
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = "Multi color Theme",
+                            modifier = Modifier.padding(start = 16.dp),
+                            fontSize = 18.sp
+                        )
+                        Spacer(modifier = Modifier.weight(1f))
+                        Switch(
+                            modifier = Modifier.padding(end = 8.dp),
+                            checked = isMultiColorThemeSelected.value, onCheckedChange = { onChecked ->
+                                if (onChecked) {
+                                    isSingleColorThemeSelected.value = false
+                                    isMultiColorThemeSelected.value = true
+                                }
+                            }
+                        )
+                    }
+                    Row (
+                        modifier = Modifier.padding(start = 12.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Box (
+                            modifier = Modifier
+                                .width(35.dp)
+                                .height(35.dp)
+                                .background(selectedColor.value, shape = RoundedCornerShape(8.dp))
+                                .border(2.dp, MaterialTheme.colorScheme.primary, RoundedCornerShape(8.dp))
+                                .clickable {
+                                    showColorPicker.value = true
+                                }
+                        )
+                        Text(
+                            text = "+",
+                            modifier = Modifier.padding(start = 8.dp, end = 8.dp),
+                            fontSize = 24.sp,
+                            fontWeight = MaterialTheme.typography.titleLarge.fontWeight
+                        )
+                        Box (
+                            modifier = Modifier
+                                .width(35.dp)
+                                .height(35.dp)
+                                .background(selectedColor.value, shape = RoundedCornerShape(8.dp))
+                                .border(2.dp, MaterialTheme.colorScheme.primary, RoundedCornerShape(8.dp))
+                                .clickable {
+                                    showColorPicker.value = true
+                                }
+                        )
+                        Text(
+                            text = "=",
+                            modifier = Modifier.padding(start = 8.dp, end = 8.dp),
+                            fontSize = 24.sp,
+                            fontWeight = MaterialTheme.typography.titleLarge.fontWeight
+                        )
+                        Box (
+                            modifier = Modifier
+                                .width(35.dp)
+                                .height(35.dp)
+                                .background(selectedColor.value, shape = RoundedCornerShape(8.dp))
+                                .border(2.dp, MaterialTheme.colorScheme.primary, RoundedCornerShape(8.dp))
+                        )
+                    }
+                }
             }
         }
     }
