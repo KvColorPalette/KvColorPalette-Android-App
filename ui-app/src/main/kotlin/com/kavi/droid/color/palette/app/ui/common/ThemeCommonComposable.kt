@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.sp
 import com.kavi.droid.color.palette.KvColorPalette
 import com.kavi.droid.color.palette.extension.isHighLightColor
 import com.kavi.droid.color.palette.extension.quaternary
+import com.kavi.droid.color.palette.model.ThemeGenMode
 import com.kavi.droid.color.palette.util.ColorUtil
 
 @Composable
@@ -59,7 +60,11 @@ fun ColorCircle(givenColor: Color, colorLetter: String = "", letterColor: Color 
 }
 
 @Composable
-fun ThemeColorRow(givenColor: Color) {
+fun ThemeColorRow(givenColor: Color,
+                  secondColor: Color? = null,
+                  bias: Float = 0.5f,
+                  themeGenMode: ThemeGenMode = ThemeGenMode.SEQUENCE
+) {
     Box(
         modifier = Modifier
             .padding(10.dp)
@@ -74,29 +79,74 @@ fun ThemeColorRow(givenColor: Color) {
             .wrapContentWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Box (modifier = Modifier
-                .width(60.dp)
-                .height(220.dp)
-                .padding(top = 16.dp, start = 16.dp, end = 4.dp, bottom = 16.dp)
-                .background(givenColor)
-            ) {
-                Text("BASE",
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .width(2.dp),
-                    style = MaterialTheme.typography.bodySmall,
-                    fontWeight = FontWeight.ExtraBold,
-                    color = MaterialTheme.colorScheme.onPrimary
-                )
+            secondColor?.let {
+                Column {
+                    Box (modifier = Modifier
+                        .width(60.dp)
+                        .height(110.dp)
+                        .padding(top = 16.dp, start = 16.dp, end = 4.dp)
+                        .background(givenColor)
+                    ) {
+                        Text("ONE",
+                            modifier = Modifier
+                                .padding(8.dp)
+                                .width(2.dp),
+                            style = MaterialTheme.typography.bodySmall,
+                            fontWeight = FontWeight.ExtraBold,
+                            color = MaterialTheme.colorScheme.onPrimary
+                        )
+                    }
+
+                    Box (modifier = Modifier
+                        .width(60.dp)
+                        .height(110.dp)
+                        .padding(start = 16.dp, end = 4.dp, bottom = 16.dp)
+                        .background(it)
+                    ) {
+                        Text("TWO",
+                            modifier = Modifier
+                                .padding(8.dp)
+                                .width(2.dp),
+                            style = MaterialTheme.typography.bodySmall,
+                            fontWeight = FontWeight.ExtraBold,
+                            color = MaterialTheme.colorScheme.onPrimary
+                        )
+                    }
+                }
+            }?: run {
+                Box (modifier = Modifier
+                    .width(60.dp)
+                    .height(220.dp)
+                    .padding(top = 16.dp, start = 16.dp, end = 4.dp, bottom = 16.dp)
+                    .background(givenColor)
+                ) {
+                    Text("BASE",
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .width(2.dp),
+                        style = MaterialTheme.typography.bodySmall,
+                        fontWeight = FontWeight.ExtraBold,
+                        color = MaterialTheme.colorScheme.onPrimary
+                    )
+                }
             }
 
             Column(modifier = Modifier,
                 //.fillMaxWidth(),
                 verticalArrangement = Arrangement.Center,
             ) {
-                val appThemeColorSet = KvColorPalette.instance.generateThemeColorSchemePalette(
-                    givenColor = givenColor,
-                )
+                val appThemeColorSet = secondColor?.let {
+                    KvColorPalette.instance.generateMultiColorThemeColorSchemePalette(
+                        givenColor = givenColor,
+                        secondColor = it,
+                        bias = bias,
+                        themeGenMode = themeGenMode
+                    )
+                }?: run {
+                    KvColorPalette.instance.generateThemeColorSchemePalette(
+                        givenColor = givenColor
+                    )
+                }
 
                 Text("Light Theme", Modifier.padding(top = 8.dp, start = 8.dp), style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.ExtraBold, color = Color.Black)
 

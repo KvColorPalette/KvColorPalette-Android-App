@@ -1,5 +1,6 @@
 package com.kavi.droid.color.palette.app.ui.common
 
+import android.content.ClipData
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -14,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.selection.SelectionContainer
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,10 +29,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.platform.LocalClipboard
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.kavi.droid.color.palette.app.R
 import com.kavi.droid.color.palette.extension.isHighLightColor
 import com.kavi.droid.color.palette.util.ColorUtil
 import java.util.Locale
@@ -58,6 +63,9 @@ fun ColorBox(givenColor: Color, selectedColor: Color?, onSelect: (color: Color) 
 
 @Composable
 fun ColorDetailRow(selectedColorList: List<Color>) {
+
+    val clipboardManager = LocalClipboard.current
+
     Row (
         modifier = Modifier
             .padding(top = 4.dp, bottom = 6.dp, start = 16.dp, end = 16.dp)
@@ -76,18 +84,20 @@ fun ColorDetailRow(selectedColorList: List<Color>) {
                     .height(58.dp)
                     .background(firstSpotColor, shape = RoundedCornerShape(8.dp))
                     .border(2.dp, MaterialTheme.colorScheme.primary, RoundedCornerShape(8.dp))
-            )
-
-            SelectionContainer {
-                Text(
-                    text = ColorUtil.getHex(color = firstSpotColor),
-                    modifier = Modifier
-                        .width(60.dp)
-                        .padding(4.dp),
-                    style = MaterialTheme.typography.bodyMedium,
-                    fontSize = 12.sp,
-                    textAlign = TextAlign.Center
-                )
+                    .clickable {
+                        clipboardManager.nativeClipboard
+                            .setPrimaryClip(ClipData.newPlainText("", ColorUtil.getHex(color = firstSpotColor)))
+                    }
+            ) {
+                if (firstSpotColor != Color.White) {
+                    Icon(
+                        painter = painterResource(R.drawable.icon_click_me),
+                        contentDescription = "Select Color",
+                        tint = if (firstSpotColor.isHighLightColor) Color.Black else Color.White,
+                        modifier = Modifier
+                            .align(Alignment.Center)
+                    )
+                }
             }
         }
 
@@ -103,18 +113,20 @@ fun ColorDetailRow(selectedColorList: List<Color>) {
                     .height(58.dp)
                     .background(secondSpotColor, shape = RoundedCornerShape(8.dp))
                     .border(2.dp, MaterialTheme.colorScheme.primary, RoundedCornerShape(8.dp))
-            )
-
-            SelectionContainer {
-                Text(
-                    text = ColorUtil.getHex(color = secondSpotColor),
-                    modifier = Modifier
-                        .width(60.dp)
-                        .padding(4.dp),
-                    style = MaterialTheme.typography.bodyMedium,
-                    fontSize = 12.sp,
-                    textAlign = TextAlign.Center
-                )
+                    .clickable {
+                        clipboardManager.nativeClipboard
+                            .setPrimaryClip(ClipData.newPlainText("", ColorUtil.getHex(color = secondSpotColor)))
+                    }
+            ) {
+                if (secondSpotColor != Color.White) {
+                    Icon(
+                        painter = painterResource(R.drawable.icon_click_me),
+                        contentDescription = "Select Color",
+                        tint = if (secondSpotColor.isHighLightColor) Color.Black else Color.White,
+                        modifier = Modifier
+                            .align(Alignment.Center)
+                    )
+                }
             }
         }
 
@@ -130,18 +142,20 @@ fun ColorDetailRow(selectedColorList: List<Color>) {
                     .height(58.dp)
                     .background(thirdSpotColor, shape = RoundedCornerShape(8.dp))
                     .border(2.dp, MaterialTheme.colorScheme.primary, RoundedCornerShape(8.dp))
-            )
-
-            SelectionContainer {
-                Text(
-                    text = ColorUtil.getHex(color = thirdSpotColor),
-                    modifier = Modifier
-                        .width(60.dp)
-                        .padding(4.dp),
-                    style = MaterialTheme.typography.bodyMedium,
-                    fontSize = 12.sp,
-                    textAlign = TextAlign.Center
-                )
+                    .clickable {
+                        clipboardManager.nativeClipboard
+                            .setPrimaryClip(ClipData.newPlainText("", ColorUtil.getHex(color = thirdSpotColor)))
+                    }
+            ) {
+                if (thirdSpotColor != Color.White) {
+                    Icon(
+                        painter = painterResource(R.drawable.icon_click_me),
+                        contentDescription = "Select Color",
+                        tint = if (thirdSpotColor.isHighLightColor) Color.Black else Color.White,
+                        modifier = Modifier
+                            .align(Alignment.Center)
+                    )
+                }
             }
         }
 
@@ -157,18 +171,20 @@ fun ColorDetailRow(selectedColorList: List<Color>) {
                     .height(58.dp)
                     .background(forthSpotColor, shape = RoundedCornerShape(8.dp))
                     .border(2.dp, MaterialTheme.colorScheme.primary, RoundedCornerShape(8.dp))
-            )
-
-            SelectionContainer {
-                Text(
-                    text = ColorUtil.getHex(color = forthSpotColor),
-                    modifier = Modifier
-                        .width(60.dp)
-                        .padding(4.dp),
-                    style = MaterialTheme.typography.bodyMedium,
-                    fontSize = 12.sp,
-                    textAlign = TextAlign.Center
-                )
+                    .clickable {
+                        clipboardManager.nativeClipboard
+                            .setPrimaryClip(ClipData.newPlainText("", ColorUtil.getHex(color = forthSpotColor)))
+                    }
+            ) {
+                if (forthSpotColor != Color.White) {
+                    Icon(
+                        painter = painterResource(R.drawable.icon_click_me),
+                        contentDescription = "Select Color",
+                        tint = if (forthSpotColor.isHighLightColor) Color.Black else Color.White,
+                        modifier = Modifier
+                            .align(Alignment.Center)
+                    )
+                }
             }
         }
 
@@ -184,18 +200,20 @@ fun ColorDetailRow(selectedColorList: List<Color>) {
                     .height(58.dp)
                     .background(fifthSpotColor, shape = RoundedCornerShape(8.dp))
                     .border(2.dp, MaterialTheme.colorScheme.primary, RoundedCornerShape(8.dp))
-            )
-
-            SelectionContainer {
-                Text(
-                    text = ColorUtil.getHex(color = fifthSpotColor),
-                    modifier = Modifier
-                        .width(60.dp)
-                        .padding(4.dp),
-                    style = MaterialTheme.typography.bodyMedium,
-                    fontSize = 12.sp,
-                    textAlign = TextAlign.Center
-                )
+                    .clickable {
+                        clipboardManager.nativeClipboard
+                            .setPrimaryClip(ClipData.newPlainText("", ColorUtil.getHex(color = fifthSpotColor)))
+                    }
+            ) {
+                if (fifthSpotColor != Color.White) {
+                    Icon(
+                        painter = painterResource(R.drawable.icon_click_me),
+                        contentDescription = "Select Color",
+                        tint = if (fifthSpotColor.isHighLightColor) Color.Black else Color.White,
+                        modifier = Modifier
+                            .align(Alignment.Center)
+                    )
+                }
             }
         }
     }
@@ -262,7 +280,10 @@ fun ColorCountSelector(selectedColorCount: MutableState<String>) {
             color = Color.Black
         )
 
-        AppDropDown(title = "Color Count", selectableItems = listOf("5", "10", "15", "20", "25", "30"), selectedItem = selectedColorCount)
+        AppDropDown(modifier = Modifier.padding(start = 16.dp, end = 8.dp, top = 4.dp, bottom = 4.dp),
+            title = "Color Count", selectableItems = listOf("5", "10", "15", "20", "25", "30"),
+            selectedItem = selectedColorCount
+        )
 
     }
 }

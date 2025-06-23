@@ -16,6 +16,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -32,22 +33,31 @@ import androidx.compose.ui.unit.sp
 import com.kavi.droid.color.palette.KvColorPalette
 import com.kavi.droid.color.palette.app.theme.KvColorPaletteTheme
 import com.kavi.droid.color.palette.app.ui.common.SelectedColorUI
+import com.kavi.droid.color.palette.app.ui.common.SelectedColorsUI
 import com.kavi.droid.color.palette.app.ui.common.ThemeColorItem
 import com.kavi.droid.color.palette.extension.quaternary
 import com.kavi.droid.color.palette.extension.shadow
 import com.kavi.droid.color.palette.model.ColorSchemeThemePalette
+import com.kavi.droid.color.palette.model.ThemeGenMode
 import com.kavi.droid.color.palette.util.ColorUtil
 import com.kavi.droid.color.picker.ui.KvColorPickerBottomSheet
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ThemeGenDetailUI() {
-    val selectedColor = remember { mutableStateOf(Color.White) }
-    val colorHex = remember { mutableStateOf(TextFieldValue("")) }
+fun ThemeGenDetailUI(isMultiColorThemeGen: Boolean = false) {
+    val selectedFirstColor = remember { mutableStateOf(Color.White) }
+    val selectedSecondColor = remember { mutableStateOf(Color.White) }
+    val firstColorHex = remember { mutableStateOf(TextFieldValue("")) }
+    val secondColorHex = remember { mutableStateOf(TextFieldValue("")) }
     var themeColorPalette by remember { mutableStateOf<ColorSchemeThemePalette?>(null) }
 
-    val showSheet = remember { mutableStateOf(false) }
-    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    val showSheetForFirstColor = remember { mutableStateOf(false) }
+    val sheetStateForFirstColor = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    val showSheetForSecondColor = remember { mutableStateOf(false) }
+    val sheetStateForSecondColor = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+
+    val selectedThemeGenMode = remember { mutableStateOf(ThemeGenMode.SEQUENCE.name) }
+    val biasValue = remember { mutableFloatStateOf(0.5f) }
 
     Scaffold { innerPadding ->
         Column(
@@ -70,13 +80,26 @@ fun ThemeGenDetailUI() {
                 )
             }
 
-            SelectedColorUI(colorHex, selectedColor, showSheet)
+            if (isMultiColorThemeGen)
+                SelectedColorsUI(firstColorHex, secondColorHex,
+                    selectedFirstColor, selectedSecondColor,
+                    showSheetForFirstColor, showSheetForSecondColor, selectedThemeGenMode, biasValue)
+            else
+                SelectedColorUI(firstColorHex, selectedFirstColor, showSheetForFirstColor)
 
-            if (showSheet.value) {
-                KvColorPickerBottomSheet(showSheet = showSheet,
-                    sheetState = sheetState, onColorSelected = {
-                        selectedColor.value = it
-                        colorHex.value = TextFieldValue(ColorUtil.getHex(color = selectedColor.value))
+            if (showSheetForFirstColor.value) {
+                KvColorPickerBottomSheet(showSheet = showSheetForFirstColor,
+                    sheetState = sheetStateForFirstColor, onColorSelected = {
+                        selectedFirstColor.value = it
+                        firstColorHex.value = TextFieldValue(ColorUtil.getHex(color = selectedFirstColor.value))
+                    })
+            }
+
+            if (showSheetForSecondColor.value) {
+                KvColorPickerBottomSheet(showSheet = showSheetForSecondColor,
+                    sheetState = sheetStateForSecondColor, onColorSelected = {
+                        selectedSecondColor.value = it
+                        secondColorHex.value = TextFieldValue(ColorUtil.getHex(color = selectedSecondColor.value))
                     })
             }
 
@@ -86,7 +109,19 @@ fun ThemeGenDetailUI() {
                     .fillMaxWidth(),
                 shape = RoundedCornerShape(8.dp),
                 onClick = {
-                    themeColorPalette = KvColorPalette.instance.generateThemeColorSchemePalette(givenColor = selectedColor.value)
+                    val themeGenMode = when(selectedThemeGenMode.value) {
+                        ThemeGenMode.SEQUENCE.name -> ThemeGenMode.SEQUENCE
+                        ThemeGenMode.BLEND.name -> ThemeGenMode.BLEND
+                        else -> ThemeGenMode.SEQUENCE
+                    }
+
+                    themeColorPalette = if (isMultiColorThemeGen)
+                        KvColorPalette.instance.generateMultiColorThemeColorSchemePalette(
+                            givenColor = selectedFirstColor.value,
+                            secondColor = selectedSecondColor.value,
+                            bias = biasValue.floatValue, themeGenMode = themeGenMode)
+                    else
+                        KvColorPalette.instance.generateThemeColorSchemePalette(givenColor = selectedFirstColor.value)
                 }
             ) {
                 Text("Generate Theme")
