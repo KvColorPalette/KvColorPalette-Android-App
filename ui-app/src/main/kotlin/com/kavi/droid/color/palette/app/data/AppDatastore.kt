@@ -17,9 +17,11 @@ import kotlinx.serialization.json.Json
 object AppDatastore {
 
     const val APP_THEME_TYPE= "APP_THEME_TYPE"
-    const val APP_THEME_BASE_COLOR = "APP_THEME_BASE_COLOR"
-    const val APP_THEME_FIRST_COLOR = "APP_THEME_FIRST_COLOR"
-    const val APP_THEME_SECOND_COLOR = "APP_THEME_SECOND_COLOR"
+    const val APP_THEME_SINGLE_BASE_COLOR = "APP_THEME_BASE_COLOR"
+    const val APP_THEME_MULTI_FIRST_COLOR = "APP_THEME_FIRST_COLOR"
+    const val APP_THEME_MULTI_SECOND_COLOR = "APP_THEME_SECOND_COLOR"
+    const val APP_THEME_MULTI_BLEND_SWITCH = "APP_THEME_MULTI_BLEND_SWITCH"
+    const val APP_THEME_MULTI_BIAS = "APP_THEME_MULTI_BIAS"
 
     lateinit var appContext: Context
 

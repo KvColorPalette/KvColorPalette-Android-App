@@ -44,12 +44,12 @@ dependencyResolutionManagement {
 }
 
 // This is for local development (Use this as a gradle composite build)
-/*includeBuild("../KvColorPalette-Android") {
+includeBuild("../KvColorPalette-Android") {
     dependencySubstitution {
         substitute(module("com.github.KvColorPalette:KvColorPalette-Android"))
             .using(project(":kv-color-palette"))
     }
-}*/
+}
 /*includeBuild("../KvColorPicker-Android") {
     dependencySubstitution {
         substitute(module("com.github.KvColorPalette:KvColorPicker-Android"))
