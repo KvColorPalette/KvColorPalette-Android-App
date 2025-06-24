@@ -40,6 +40,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -134,15 +135,20 @@ fun SettingsTab(modifier: Modifier, colorScheme: MutableState<ColorScheme?>) {
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = "Theme Type",
-                            modifier = Modifier.padding(start = 16.dp),
-                            fontSize = 18.sp
+                            text = "Theme Settings",
+                            modifier = Modifier.padding(start = 12.dp, top = 12.dp, bottom = 8.dp),
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Bold
                         )
-                        Spacer(modifier = Modifier.weight(1f))
+                    }
 
+                    Row (
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
                         AppDropDown(
                             modifier = Modifier
-                                .padding(start = 30.dp, end = 4.dp, top = 4.dp, bottom = 4.dp),
+                                .weight(1f)
+                                .padding(start = 8.dp, end = 8.dp, top = 4.dp, bottom = 4.dp),
                             title = "Theme Type", selectableItems = listOf("Single Color", "Multi Color"),
                             selectedItem = selectedThemeType
                         )
@@ -155,21 +161,20 @@ fun SettingsTab(modifier: Modifier, colorScheme: MutableState<ColorScheme?>) {
                         }
                     ) { isExpanded ->
                         if (isExpanded) {
-                            Column {
+                            Column (modifier = Modifier.padding(start = 16.dp, end = 16.dp)) {
                                 if (selectedThemeType.value == "Single Color") {
                                     Row (
-                                        modifier = Modifier.padding(end = 8.dp, bottom = 8.dp, top = 4.dp),
+                                        modifier = Modifier.padding(top = 4.dp, bottom = 8.dp),
                                         verticalAlignment = Alignment.CenterVertically
                                     ) {
                                         Text(
+                                            modifier = Modifier.padding(start = 4.dp),
                                             text = "Select your color",
-                                            modifier = Modifier.padding(start = 16.dp),
                                             fontSize = 18.sp
                                         )
                                         Spacer(modifier = Modifier.weight(1f))
                                         Box (
                                             modifier = Modifier
-                                                .padding(end = 4.dp)
                                                 .width(35.dp)
                                                 .height(35.dp)
                                                 .background(selectedSingleColor, shape = RoundedCornerShape(8.dp))
@@ -182,11 +187,12 @@ fun SettingsTab(modifier: Modifier, colorScheme: MutableState<ColorScheme?>) {
                                     }
                                 } else if (selectedThemeType.value == "Multi Color") {
                                     Row (
-                                        modifier = Modifier.padding(start = 12.dp, end = 12.dp, bottom = 8.dp),
+                                        modifier = Modifier.padding(top = 4.dp, bottom = 8.dp),
                                         verticalAlignment = Alignment.CenterVertically
                                     ) {
                                         Text(
-                                            text = "Select your colors",
+                                            modifier = Modifier.padding(start = 4.dp),
+                                            text = "Select your color(s)",
                                             fontSize = 18.sp
                                         )
                                         Spacer(modifier = Modifier.weight(1f))
@@ -245,10 +251,11 @@ fun SettingsTab(modifier: Modifier, colorScheme: MutableState<ColorScheme?>) {
                                         }
                                     }
                                     Row (
-                                        modifier = Modifier.padding(start = 12.dp, end = 12.dp, bottom = 8.dp),
+                                        modifier = Modifier.padding(top = 4.dp, bottom = 8.dp),
                                         verticalAlignment = Alignment.CenterVertically
                                     ) {
                                         Text(
+                                            modifier = Modifier.padding(start = 4.dp),
                                             text = "Do you want to blend colors?",
                                             fontSize = 18.sp
                                         )
@@ -265,10 +272,11 @@ fun SettingsTab(modifier: Modifier, colorScheme: MutableState<ColorScheme?>) {
 
                                     if (blendSwitch) {
                                         Row (
-                                            modifier = Modifier.padding(start = 12.dp, end = 12.dp, bottom = 8.dp),
+                                            modifier = Modifier.padding(top = 4.dp, bottom = 8.dp),
                                             verticalAlignment = Alignment.CenterVertically
                                         ) {
                                             Text(
+                                                modifier = Modifier.padding(start = 4.dp),
                                                 text = "Bias",
                                                 fontSize = 18.sp
                                             )
@@ -301,7 +309,7 @@ fun SettingsTab(modifier: Modifier, colorScheme: MutableState<ColorScheme?>) {
 
                                 Button(
                                     modifier = Modifier
-                                        .padding(start = 12.dp, end = 12.dp, top = 8.dp, bottom = 8.dp)
+                                        .padding(top = 8.dp, bottom = 16.dp)
                                         .fillMaxWidth(),
                                     shape = RoundedCornerShape(8.dp),
                                     onClick = {
