@@ -15,6 +15,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
@@ -38,10 +41,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.layout
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
@@ -49,6 +55,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.unit.toSize
 import com.kavi.droid.color.palette.app.R
 import com.kavi.droid.color.palette.extension.isHighLightColor
 import com.kavi.droid.color.palette.model.ThemeGenMode
@@ -349,7 +356,7 @@ fun SelectedColorsUI(
 
             Row (modifier = Modifier.fillMaxWidth()) {
                 Column (modifier = Modifier.weight(.65f)) {
-                    AppDropDown(
+                    AppDropDownMenu(
                         title = "Theme Pattern",
                         selectableItems = listOf(ThemeGenMode.SEQUENCE.name, ThemeGenMode.BLEND.name),
                         selectedItem = selectedThemeGenMode
@@ -381,59 +388,71 @@ fun SelectedColorsUI(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppDropDown(
+fun AppDropDownMenu(
     modifier: Modifier = Modifier,
     title: String,
     selectableItems: List<String>,
     selectedItem: MutableState<String>
 ) {
-    var expanded by remember { mutableStateOf(false) }
+    // Declaring a boolean value to store
+    // the expanded state of the Text Field
+    var mExpanded by remember { mutableStateOf(false) }
 
-    Box {
-        ExposedDropdownMenuBox(
-            expanded = expanded,
-            onExpandedChange = { expanded = !expanded },
-            modifier = modifier
-        ) {
-            OutlinedTextField(
-                value = selectedItem.value,
-                onValueChange = {},
-                readOnly = true,
-                label = { Text(title) },
-                trailingIcon = {
-                    Icon(
-                        imageVector = Icons.Default.ArrowDropDown,
-                        contentDescription = "Dropdown",
-                        modifier = modifier
-                            .rotate(if (expanded) 180f else 0f)
-                    )
+    var mTextFieldSize by remember { mutableStateOf(Size.Zero)}
+
+    // Up Icon when expanded and down icon when collapsed
+    val icon = if (mExpanded)
+        Icons.Filled.KeyboardArrowUp
+    else
+        Icons.Filled.KeyboardArrowDown
+
+    Column(modifier = modifier) {
+
+        // Create an Outlined Text Field
+        // with icon and not expanded
+        OutlinedTextField(
+            value = selectedItem.value,
+            onValueChange = { selectedItem.value = it },
+            readOnly = true,
+            modifier = Modifier
+                .fillMaxWidth()
+                .onGloballyPositioned { coordinates ->
+                    // This value is used to assign to
+                    // the DropDown the same width
+                    mTextFieldSize = coordinates.size.toSize()
                 },
-                colors = TextFieldDefaults.colors(
-                    unfocusedTextColor = Color.Black,
-                    focusedTextColor = MaterialTheme.colorScheme.tertiary,
-                    unfocusedContainerColor = Color.White,
-                    focusedContainerColor = Color.White,
-                    focusedIndicatorColor = MaterialTheme.colorScheme.tertiary,
-                    unfocusedIndicatorColor = MaterialTheme.colorScheme.tertiary
-                ),
-                modifier = modifier
-                    .menuAnchor(MenuAnchorType.PrimaryNotEditable)
-            )
-            ExposedDropdownMenu(
-                expanded = expanded,
-                onDismissRequest = { expanded = false },
-            ) {
-                selectableItems.forEach { item ->
-                    DropdownMenuItem(
-                        text = { Text(text = item) },
-                        onClick = {
-                            selectedItem.value = item
-                            expanded = false
-                        }
-                    )
-                }
+            label = {Text(title)},
+            trailingIcon = {
+                Icon(icon,"contentDescription",
+                    Modifier.clickable { mExpanded = !mExpanded })
+            },
+            colors = TextFieldDefaults.colors(
+                unfocusedTextColor = Color.Black,
+                focusedTextColor = MaterialTheme.colorScheme.tertiary,
+                unfocusedContainerColor = Color.White,
+                focusedContainerColor = Color.White,
+                focusedIndicatorColor = MaterialTheme.colorScheme.tertiary,
+                unfocusedIndicatorColor = MaterialTheme.colorScheme.tertiary
+            ),
+        )
+
+        // Create a drop-down menu with list of cities,
+        // when clicked, set the Text Field text as the city selected
+        DropdownMenu(
+            expanded = mExpanded,
+            onDismissRequest = { mExpanded = false },
+            modifier = Modifier
+                .width(with(LocalDensity.current){mTextFieldSize.width.toDp()})
+        ) {
+            selectableItems.forEach { label ->
+                DropdownMenuItem(
+                    text = { Text(text = label) },
+                    onClick = {
+                        selectedItem.value = label
+                        mExpanded = false
+                    }
+                )
             }
         }
     }

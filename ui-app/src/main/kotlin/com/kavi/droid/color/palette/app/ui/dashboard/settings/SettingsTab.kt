@@ -45,7 +45,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kavi.droid.color.palette.KvColorPalette
-import com.kavi.droid.color.palette.app.ui.common.AppDropDown
+import com.kavi.droid.color.palette.app.ui.common.AppDropDownMenu
 import com.kavi.droid.color.palette.model.ThemeGenMode
 import com.kavi.droid.color.picker.ui.KvColorPickerBottomSheet
 import kotlinx.coroutines.flow.firstOrNull
@@ -145,11 +145,10 @@ fun SettingsTab(modifier: Modifier, colorScheme: MutableState<ColorScheme?>) {
                     Row (
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        AppDropDown(
-                            modifier = Modifier
-                                .weight(1f)
-                                .padding(start = 8.dp, end = 8.dp, top = 4.dp, bottom = 4.dp),
-                            title = "Theme Type", selectableItems = listOf("Single Color", "Multi Color"),
+                        AppDropDownMenu(
+                            modifier = Modifier.padding(start = 12.dp, end = 12.dp, top = 4.dp, bottom = 4.dp),
+                            title = "Theme Type",
+                            selectableItems = listOf("Single Color", "Multi Color"),
                             selectedItem = selectedThemeType
                         )
                     }
@@ -187,67 +186,74 @@ fun SettingsTab(modifier: Modifier, colorScheme: MutableState<ColorScheme?>) {
                                     }
                                 } else if (selectedThemeType.value == "Multi Color") {
                                     Row (
-                                        modifier = Modifier.padding(top = 4.dp, bottom = 8.dp),
+                                        modifier = Modifier.padding(top = 8.dp, bottom = 8.dp),
                                         verticalAlignment = Alignment.CenterVertically
                                     ) {
-                                        Text(
-                                            modifier = Modifier.padding(start = 4.dp),
-                                            text = "Select your color(s)",
-                                            fontSize = 18.sp
-                                        )
-                                        Spacer(modifier = Modifier.weight(1f))
-                                        Box (
-                                            modifier = Modifier
-                                                .width(35.dp)
-                                                .height(35.dp)
-                                                .background(selectedFirstColor, shape = RoundedCornerShape(8.dp))
-                                                .border(2.dp, MaterialTheme.colorScheme.primary, RoundedCornerShape(8.dp))
-                                                .clickable {
-                                                    colorPickerOpenFor = ColorSelection.MULTI_THEME_FIRST
-                                                    showColorPicker.value = true
-                                                }
-                                        )
-                                        Text(
-                                            text = "+",
-                                            modifier = Modifier.padding(start = 8.dp, end = 8.dp),
-                                            fontSize = 24.sp,
-                                            fontWeight = MaterialTheme.typography.titleLarge.fontWeight
-                                        )
-                                        Box (
-                                            modifier = Modifier
-                                                .width(35.dp)
-                                                .height(35.dp)
-                                                .background(selectedSecondColor, shape = RoundedCornerShape(8.dp))
-                                                .border(2.dp, MaterialTheme.colorScheme.primary, RoundedCornerShape(8.dp))
-                                                .clickable {
-                                                    colorPickerOpenFor = ColorSelection.MULTI_THEME_SECOND
-                                                    showColorPicker.value = true
-                                                }
-                                        )
-                                        if (blendSwitch) {
+                                        Column {
                                             Text(
-                                                text = "=",
-                                                modifier = Modifier.padding(
-                                                    start = 8.dp,
-                                                    end = 8.dp
-                                                ),
-                                                fontSize = 24.sp,
-                                                fontWeight = MaterialTheme.typography.titleLarge.fontWeight
+                                                modifier = Modifier.padding(start = 4.dp),
+                                                text = "Select your color(s)",
+                                                fontSize = 18.sp
                                             )
-                                            Box(
-                                                modifier = Modifier
-                                                    .width(35.dp)
-                                                    .height(35.dp)
-                                                    .background(
-                                                        blendColor,
-                                                        shape = RoundedCornerShape(8.dp)
+                                            Row (
+                                                modifier = Modifier.padding(top = 4.dp),
+                                                verticalAlignment = Alignment.CenterVertically
+                                            ) {
+                                                Spacer(modifier = Modifier.weight(1f))
+                                                Box (
+                                                    modifier = Modifier
+                                                        .width(35.dp)
+                                                        .height(35.dp)
+                                                        .background(selectedFirstColor, shape = RoundedCornerShape(8.dp))
+                                                        .border(2.dp, MaterialTheme.colorScheme.primary, RoundedCornerShape(8.dp))
+                                                        .clickable {
+                                                            colorPickerOpenFor = ColorSelection.MULTI_THEME_FIRST
+                                                            showColorPicker.value = true
+                                                        }
+                                                )
+                                                Text(
+                                                    text = "+",
+                                                    modifier = Modifier.padding(start = 8.dp, end = 8.dp),
+                                                    fontSize = 24.sp,
+                                                    fontWeight = MaterialTheme.typography.titleLarge.fontWeight
+                                                )
+                                                Box (
+                                                    modifier = Modifier
+                                                        .width(35.dp)
+                                                        .height(35.dp)
+                                                        .background(selectedSecondColor, shape = RoundedCornerShape(8.dp))
+                                                        .border(2.dp, MaterialTheme.colorScheme.primary, RoundedCornerShape(8.dp))
+                                                        .clickable {
+                                                            colorPickerOpenFor = ColorSelection.MULTI_THEME_SECOND
+                                                            showColorPicker.value = true
+                                                        }
+                                                )
+                                                if (blendSwitch) {
+                                                    Text(
+                                                        text = "=",
+                                                        modifier = Modifier.padding(
+                                                            start = 8.dp,
+                                                            end = 8.dp
+                                                        ),
+                                                        fontSize = 24.sp,
+                                                        fontWeight = MaterialTheme.typography.titleLarge.fontWeight
                                                     )
-                                                    .border(
-                                                        2.dp,
-                                                        MaterialTheme.colorScheme.primary,
-                                                        RoundedCornerShape(8.dp)
+                                                    Box(
+                                                        modifier = Modifier
+                                                            .width(35.dp)
+                                                            .height(35.dp)
+                                                            .background(
+                                                                blendColor,
+                                                                shape = RoundedCornerShape(8.dp)
+                                                            )
+                                                            .border(
+                                                                2.dp,
+                                                                MaterialTheme.colorScheme.primary,
+                                                                RoundedCornerShape(8.dp)
+                                                            )
                                                     )
-                                            )
+                                                }
+                                            }
                                         }
                                     }
                                     Row (

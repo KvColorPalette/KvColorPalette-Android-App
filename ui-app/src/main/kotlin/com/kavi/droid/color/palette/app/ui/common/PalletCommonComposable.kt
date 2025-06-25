@@ -280,7 +280,7 @@ fun ColorCountSelector(selectedColorCount: MutableState<String>) {
             color = Color.Black
         )
 
-        AppDropDown(modifier = Modifier.padding(start = 16.dp, end = 8.dp, top = 4.dp, bottom = 4.dp),
+        AppDropDownMenu(modifier = Modifier.padding(start = 16.dp, end = 8.dp, top = 4.dp, bottom = 4.dp),
             title = "Color Count", selectableItems = listOf("5", "10", "15", "20", "25", "30"),
             selectedItem = selectedColorCount
         )
