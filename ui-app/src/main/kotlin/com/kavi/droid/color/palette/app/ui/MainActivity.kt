@@ -12,7 +12,6 @@ import androidx.compose.runtime.remember
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.kavi.droid.color.palette.KvColorPalette
-import com.kavi.droid.color.palette.app.data.repository.SettingsLocalRepositoryImpl
 import com.kavi.droid.color.palette.app.ui.theme.KvColorPaletteTheme
 import com.kavi.droid.color.palette.app.ui.navigation.NavigationHost
 import dagger.hilt.android.AndroidEntryPoint

@@ -69,8 +69,6 @@ fun SettingsTab(modifier: Modifier, colorScheme: MutableState<ColorScheme?>, vie
 
     var colorPickerOpenFor by remember { mutableStateOf(ColorSelection.SINGLE_THEME) }
 
-   // val viewModel = viewModel<SettingsViewModel>()
-
     val selectedThemeType = remember { mutableStateOf("") }
 
     val selectedSingleColor by viewModel.selectedSingleColor.collectAsState()
