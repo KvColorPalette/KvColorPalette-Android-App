@@ -4,8 +4,6 @@ import android.app.Application
 import com.kavi.droid.color.palette.KvColorPalette
 import com.kavi.droid.color.palette.app.data.AppDatastore
 import com.kavi.droid.color.palette.app.data.dto.Quadruple
-import com.kavi.droid.color.palette.app.data.repository.SettingsDataRepository
-import com.kavi.droid.color.palette.app.data.repository.SettingsLocalRepositoryImpl
 import com.kavi.droid.color.palette.app.ui.screen.dashboard.settings.ThemeType
 import com.kavi.droid.color.palette.color.MatPackage
 import com.kavi.droid.color.palette.model.ThemeGenMode
@@ -15,7 +13,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltAndroidApp
 class KvColorPaletteApp: Application() {

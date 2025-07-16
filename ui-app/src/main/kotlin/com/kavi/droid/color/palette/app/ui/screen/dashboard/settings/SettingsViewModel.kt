@@ -3,7 +3,6 @@ package com.kavi.droid.color.palette.app.ui.screen.dashboard.settings
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kavi.droid.color.palette.app.data.AppDatastore
 import com.kavi.droid.color.palette.app.data.repository.SettingsDataRepository
 import com.kavi.droid.color.palette.util.ColorUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
