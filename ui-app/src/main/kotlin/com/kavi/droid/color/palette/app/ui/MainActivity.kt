@@ -12,11 +12,16 @@ import androidx.compose.runtime.remember
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.kavi.droid.color.palette.KvColorPalette
-import com.kavi.droid.color.palette.app.theme.KvColorPaletteTheme
-import com.kavi.droid.color.palette.app.navigation.NavigationHost
+import com.kavi.droid.color.palette.app.data.repository.SettingsLocalRepositoryImpl
+import com.kavi.droid.color.palette.app.ui.theme.KvColorPaletteTheme
+import com.kavi.droid.color.palette.app.ui.navigation.NavigationHost
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
+    @Inject
+    lateinit var navigationHost: NavigationHost
     private lateinit var navController: NavHostController
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,7 +42,7 @@ class MainActivity : ComponentActivity() {
             KvColorPaletteTheme (isDynamicColor = false, appColorScheme = appColorScheme) {
                 navController = rememberNavController()
                 // Create the navigation host with start-up destination as 'dashboard tab ui'
-                NavigationHost.NavGraph(navController = navController, colorScheme = appColorScheme)
+                navigationHost.NavGraph(navController = navController, colorScheme = appColorScheme)
             }
         }
     }

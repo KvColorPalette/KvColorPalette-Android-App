@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.kotlin.kapt)
+    alias(libs.plugins.google.android.hilt)
 }
 
 // App Properties
@@ -44,6 +46,10 @@ android {
     }
 }
 
+hilt {
+    enableAggregatingTask = false
+}
+
 dependencies {
 
     implementation(libs.androidx.core.ktx)
@@ -64,6 +70,11 @@ dependencies {
     // Kotlin Coroutines
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.android)
+
+    // DI Hilt
+    implementation(libs.google.android.hilt)
+    kapt(libs.google.android.hilt.compiler)
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
 
     // Datastore
     implementation(libs.androidx.datastore)
