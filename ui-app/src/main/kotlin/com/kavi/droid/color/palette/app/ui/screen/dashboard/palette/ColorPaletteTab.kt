@@ -21,6 +21,10 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -36,7 +40,9 @@ import com.kavi.droid.color.palette.app.ui.screen.dashboard.palette.pager.Palett
 import com.kavi.droid.color.palette.app.ui.screen.dashboard.palette.pager.SaturationPalettePager
 
 @Composable
-fun ColorPaletteTab(navController: NavHostController, modifier: Modifier, viewModel: PaletteViewModel = hiltViewModel()) {
+fun ColorPaletteTab(navController: NavHostController, modifier: Modifier) {
+
+    var selectedPagerIndex by rememberSaveable { mutableIntStateOf(0) }
 
     Column(
         modifier = modifier
@@ -70,8 +76,8 @@ fun ColorPaletteTab(navController: NavHostController, modifier: Modifier, viewMo
             horizontalArrangement = Arrangement.Center
         ) {
             repeat(state.pageCount) { iteration ->
-                //selectedPagerIndex = state.currentPage
-                viewModel.setOrUpdateSelectedPageIndex(state.currentPage)
+                selectedPagerIndex = state.currentPage
+                //viewModel.setOrUpdateSelectedPageIndex(state.currentPage)
                 val color = if (state.currentPage == iteration) Color.DarkGray else Color.LightGray
                 Box(
                     modifier = Modifier
@@ -90,7 +96,7 @@ fun ColorPaletteTab(navController: NavHostController, modifier: Modifier, viewMo
             shape = RoundedCornerShape(8.dp),
             onClick = {
 
-                navController.navigate("palette-gen-detail/${viewModel.selectedPageIndex}")
+                navController.navigate("palette-gen-detail/${selectedPagerIndex}")
             }
         ) {
             Text("Try it out!")
