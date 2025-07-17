@@ -22,6 +22,8 @@ kvColorPicker = "2.1.0"
 kotlinxSerializationVersion = "1.4.0"
 kotlinxCoroutinesVersion = "1.7.3"
 
+hiltVersion = "2.56.2"
+
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
@@ -45,6 +47,9 @@ kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serializa
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutinesVersion" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutinesVersion" }
 
+google-android-hilt = { module = "com.google.dagger:hilt-android", version.ref = "hiltVersion" }
+google-android-hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltVersion" }
+
 kv-color-palette = { group = "com.github.KvColorPalette", name = "KvColorPalette-Android", version.ref = "kvColorPalette" }
 kv-color-picker = { group = "com.github.KvColorPalette", name = "KvColorPicker-Android", version.ref = "kvColorPicker" }
 
@@ -52,7 +57,9 @@ junit = { group = "junit", name = "junit", version.ref = "junit" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
+kotlin-kapt = { id = "kotlin-kapt", version.ref = "kotlin" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+google-android-hilt = { id = "com.google.dagger.hilt.android", version.ref = "hiltVersion" }
 
