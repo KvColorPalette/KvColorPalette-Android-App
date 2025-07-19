@@ -27,6 +27,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.kavi.droid.color.palette.app.R
 import com.kavi.droid.color.palette.app.ui.model.TabItem
+import com.kavi.droid.color.palette.app.ui.screen.dashboard.blend.ColorBlendTab
 import com.kavi.droid.color.palette.app.ui.theme.KvColorPaletteTheme
 import com.kavi.droid.color.palette.app.ui.theme.navigationBarColors
 import com.kavi.droid.color.palette.app.ui.screen.dashboard.palette.ColorPaletteTab
@@ -38,6 +39,7 @@ fun DashboardTabUI(navController: NavHostController, colorScheme: MutableState<C
     val tabItems = listOf(
         TabItem(name = "Color Palettes", icon = R.drawable.icon_color_grid),
         TabItem(name = "Theme Gen", icon = R.drawable.icon_theme_masks),
+        TabItem(name = "Blend", icon = R.drawable.icon_theme_mix),
         TabItem(name = "Settings", icon = R.drawable.icon_settings_gear)
     )
     var selectedTabIndex by rememberSaveable { mutableIntStateOf(0) }
@@ -87,7 +89,8 @@ fun TabContent(navController: NavHostController, colorScheme: MutableState<Color
     when (selectedTabIndex) {
         0 -> ColorPaletteTab(navController = navController, modifier = modifier)
         1 -> ThemeColorGenTab(navController = navController, modifier =  modifier)
-        2 -> SettingsTab(modifier = modifier, colorScheme = colorScheme)
+        2 -> ColorBlendTab(navController = navController, modifier =  modifier)
+        3 -> SettingsTab(modifier = modifier, colorScheme = colorScheme)
     }
 }
 
