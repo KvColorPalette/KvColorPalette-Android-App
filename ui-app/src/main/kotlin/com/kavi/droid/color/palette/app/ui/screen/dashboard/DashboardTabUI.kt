@@ -89,7 +89,7 @@ fun TabContent(navController: NavHostController, colorScheme: MutableState<Color
     when (selectedTabIndex) {
         0 -> ColorPaletteTab(navController = navController, modifier = modifier)
         1 -> ThemeColorGenTab(navController = navController, modifier =  modifier)
-        2 -> ColorBlendTab(navController = navController, modifier =  modifier)
+        2 -> ColorBlendTab(modifier =  modifier)
         3 -> SettingsTab(modifier = modifier, colorScheme = colorScheme)
     }
 }
