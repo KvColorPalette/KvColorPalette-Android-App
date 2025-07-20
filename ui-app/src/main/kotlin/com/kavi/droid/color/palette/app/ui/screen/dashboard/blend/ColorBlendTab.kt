@@ -1,5 +1,6 @@
 package com.kavi.droid.color.palette.app.ui.screen.dashboard.blend
 
+import android.content.ClipData
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -29,6 +30,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalClipboard
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -37,6 +39,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.kavi.droid.color.palette.app.R
 import com.kavi.droid.color.palette.extension.isHighLightColor
+import com.kavi.droid.color.palette.util.ColorUtil
 import com.kavi.droid.color.picker.ui.KvColorPickerBottomSheet
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -53,6 +56,8 @@ fun ColorBlendTab(modifier: Modifier, viewModel: ColorBlendViewModel = hiltViewM
     val sheetStateForSecondColor = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
     val blendColor by viewModel.blendColor.collectAsState()
+
+    val clipboardManager = LocalClipboard.current
 
     Column (
         modifier = modifier
@@ -224,6 +229,10 @@ fun ColorBlendTab(modifier: Modifier, viewModel: ColorBlendViewModel = hiltViewM
                 Row (
                     modifier = Modifier
                         .align(Alignment.Center)
+                        .clickable {
+                            clipboardManager.nativeClipboard
+                                .setPrimaryClip(ClipData.newPlainText("", ColorUtil.getHex(color = blendColor)))
+                        }
                 ) {
                     Icon(
                         painter = painterResource(R.drawable.icon_click_me),
