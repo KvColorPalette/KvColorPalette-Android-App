@@ -4,18 +4,24 @@ import android.app.Application
 import com.kavi.droid.color.palette.KvColorPalette
 import com.kavi.droid.color.palette.app.data.AppDatastore
 import com.kavi.droid.color.palette.app.data.dto.Quadruple
+import com.kavi.droid.color.palette.app.data.repository.SettingsLocalRepositoryImpl
 import com.kavi.droid.color.palette.app.ui.screen.dashboard.settings.ThemeType
 import com.kavi.droid.color.palette.color.MatPackage
 import com.kavi.droid.color.palette.model.ThemeGenMode
 import com.kavi.droid.color.palette.util.ColorUtil
 import dagger.hilt.android.HiltAndroidApp
+import jakarta.inject.Inject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
 @HiltAndroidApp
 class KvColorPaletteApp: Application() {
+
+    @Inject
+    lateinit var settingsLocalRepositoryImpl: SettingsLocalRepositoryImpl
 
     override fun onCreate() {
         super.onCreate()
@@ -23,11 +29,13 @@ class KvColorPaletteApp: Application() {
         // Initialize the app datastore
         AppDatastore.init(this)
 
+        KvColorPalette.initialize(baseColor = MatPackage.MatDGreen.color)
+
         CoroutineScope(Dispatchers.Main).launch {
-            AppDatastore.retrieveString(AppDatastore.APP_THEME_TYPE).collect { themeType ->
+            settingsLocalRepositoryImpl.getSelectedThemeType().collect { themeType ->
                 when (themeType) {
                     ThemeType.SINGLE_COLOR_THEME.name -> {
-                        AppDatastore.retrieveString(AppDatastore.APP_THEME_SINGLE_BASE_COLOR).collect { themeColor ->
+                        settingsLocalRepositoryImpl.getSingleSelectedColor().collect { themeColor ->
                             if (themeColor != "NULL") {
                                 KvColorPalette.initialize(baseColor = ColorUtil.getColorFromHex(themeColor))
                             } else {
@@ -36,18 +44,7 @@ class KvColorPaletteApp: Application() {
                         }
                     }
                     ThemeType.MULTI_COLOR_THEME.name -> {
-                        combine(
-                            combine(
-                                AppDatastore.retrieveString(AppDatastore.APP_THEME_MULTI_FIRST_COLOR),
-                                AppDatastore.retrieveString(AppDatastore.APP_THEME_MULTI_SECOND_COLOR),
-                            ) { firstColor, secondColor -> Pair(firstColor, secondColor) },
-                            combine(
-                                AppDatastore.retrieveBoolean(AppDatastore.APP_THEME_MULTI_BLEND_SWITCH),
-                                AppDatastore.retrieveFloat(AppDatastore.APP_THEME_MULTI_BIAS),
-                            ) { blendSwitch, bias -> Pair(blendSwitch, bias) }
-                        ) { pairOne, pairTwo ->
-                            Quadruple(pairOne.first, pairOne.second, pairTwo.first, pairTwo.second)
-                        }.collect { (firstColor, secondColor, blendSwitch, bias) ->
+                        settingsLocalRepositoryImpl.getMultiSelectedColors().collect { (firstColor, secondColor, blendSwitch, bias) ->
                             if (firstColor != "NULL" && secondColor != "NULL") {
                                 KvColorPalette.initialize(
                                     baseColor = ColorUtil.getColorFromHex(firstColor),
