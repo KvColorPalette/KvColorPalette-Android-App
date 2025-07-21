@@ -3,7 +3,6 @@ package com.kavi.droid.color.palette.app
 import android.app.Application
 import com.kavi.droid.color.palette.KvColorPalette
 import com.kavi.droid.color.palette.app.data.AppDatastore
-import com.kavi.droid.color.palette.app.data.dto.Quadruple
 import com.kavi.droid.color.palette.app.data.repository.SettingsLocalRepositoryImpl
 import com.kavi.droid.color.palette.app.ui.screen.dashboard.settings.ThemeType
 import com.kavi.droid.color.palette.color.MatPackage
@@ -13,8 +12,6 @@ import dagger.hilt.android.HiltAndroidApp
 import jakarta.inject.Inject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
 @HiltAndroidApp
