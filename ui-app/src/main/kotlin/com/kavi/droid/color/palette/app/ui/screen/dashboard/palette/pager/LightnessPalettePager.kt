@@ -44,6 +44,7 @@ fun LightnessPalettePager() {
                 modifier = Modifier.padding(8.dp)
                     .padding(top = 20.dp),
                 text = "Lightness",
+                color = MaterialTheme.colorScheme.onSurface,
                 style = MaterialTheme.typography.titleLarge
             )
         }
@@ -79,7 +80,7 @@ fun LightnessPalettePager() {
 fun LightnessPaletteColorRow(givenColor: KvColor, selectedColor: Color, onSelect: (color: Color) -> Unit) {
     val colors = KvColorPalette.instance.generateLightnessColorPalette(givenColor = givenColor.color)
     BoxWithConstraints {
-        val screenWidth = maxWidth
+        val screenWidth = this.maxWidth
         Row {
             colors.forEach {
                 ColorBox(boxSize = screenWidth * .09f, givenColor = it, selectedColor = selectedColor, onSelect = onSelect)

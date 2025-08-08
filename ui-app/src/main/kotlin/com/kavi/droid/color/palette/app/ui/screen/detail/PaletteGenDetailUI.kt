@@ -84,7 +84,9 @@ fun PaletteGenDetailUI(paletteType: PaletteType) {
             }
 
             if (showSheet.value) {
-                KvColorPickerBottomSheet(showSheet = showSheet,
+                KvColorPickerBottomSheet(
+                    lastSelectedColor = selectedColor.value,
+                    showSheet = showSheet,
                     sheetState = sheetState, onColorSelected = {
                         selectedColor.value = it
                         colorHex.value = TextFieldValue(ColorUtil.getHex(color = selectedColor.value))

@@ -121,10 +121,10 @@ fun SettingsTab(modifier: Modifier, colorScheme: MutableState<ColorScheme?>, vie
                 .padding(8.dp)
                 .fillMaxWidth()
                 //.height(80.dp)
-                .border(1.dp, MaterialTheme.colorScheme.background, shape = RoundedCornerShape(8.dp))
+                .border(1.dp, MaterialTheme.colorScheme.tertiary, shape = RoundedCornerShape(8.dp))
                 .shadow(
                     elevation = 10.dp,
-                    shape = RoundedCornerShape(8.dp)
+                    shape = RoundedCornerShape(8.dp),
                 )
                 .background(MaterialTheme.colorScheme.background),
                 verticalAlignment = Alignment.CenterVertically
