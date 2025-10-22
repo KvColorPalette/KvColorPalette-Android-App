@@ -14,6 +14,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import com.kavi.droid.color.palette.KvColorPalette
+import com.kavi.droid.color.palette.util.ColorUtil
 
 @Composable
 fun KvColorPaletteTheme(
@@ -56,8 +57,8 @@ fun navigationBarColors(): NavigationBarItemColors {
     return NavigationBarItemColors(
         selectedIconColor = MaterialTheme.colorScheme.onPrimary,
         selectedTextColor = MaterialTheme.colorScheme.onPrimary,
-        unselectedIconColor = Color.Black,
-        unselectedTextColor = MaterialTheme.colorScheme.onPrimary,
+        unselectedIconColor = ColorUtil.blendColors(Color.Gray, Color.White),
+        unselectedTextColor = ColorUtil.blendColors(Color.Gray, Color.White),
         selectedIndicatorColor = MaterialTheme.colorScheme.tertiary,
         disabledIconColor = Color.Gray,
         disabledTextColor = Color.Gray,

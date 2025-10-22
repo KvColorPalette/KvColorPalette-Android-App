@@ -88,7 +88,9 @@ fun ThemeGenDetailUI(isMultiColorThemeGen: Boolean = false) {
                 SelectedColorUI(firstColorHex, selectedFirstColor, showSheetForFirstColor)
 
             if (showSheetForFirstColor.value) {
-                KvColorPickerBottomSheet(showSheet = showSheetForFirstColor,
+                KvColorPickerBottomSheet(
+                    lastSelectedColor = selectedFirstColor.value,
+                    showSheet = showSheetForFirstColor,
                     sheetState = sheetStateForFirstColor, onColorSelected = {
                         selectedFirstColor.value = it
                         firstColorHex.value = TextFieldValue(ColorUtil.getHex(color = selectedFirstColor.value))
@@ -96,7 +98,9 @@ fun ThemeGenDetailUI(isMultiColorThemeGen: Boolean = false) {
             }
 
             if (showSheetForSecondColor.value) {
-                KvColorPickerBottomSheet(showSheet = showSheetForSecondColor,
+                KvColorPickerBottomSheet(
+                    lastSelectedColor = selectedSecondColor.value,
+                    showSheet = showSheetForSecondColor,
                     sheetState = sheetStateForSecondColor, onColorSelected = {
                         selectedSecondColor.value = it
                         secondColorHex.value = TextFieldValue(ColorUtil.getHex(color = selectedSecondColor.value))

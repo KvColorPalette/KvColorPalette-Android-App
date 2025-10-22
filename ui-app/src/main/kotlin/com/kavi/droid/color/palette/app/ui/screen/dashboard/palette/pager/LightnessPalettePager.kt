@@ -1,5 +1,6 @@
 package com.kavi.droid.color.palette.app.ui.screen.dashboard.palette.pager
 
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -43,6 +44,7 @@ fun LightnessPalettePager() {
                 modifier = Modifier.padding(8.dp)
                     .padding(top = 20.dp),
                 text = "Lightness",
+                color = MaterialTheme.colorScheme.onSurface,
                 style = MaterialTheme.typography.titleLarge
             )
         }
@@ -77,9 +79,12 @@ fun LightnessPalettePager() {
 @Composable
 fun LightnessPaletteColorRow(givenColor: KvColor, selectedColor: Color, onSelect: (color: Color) -> Unit) {
     val colors = KvColorPalette.instance.generateLightnessColorPalette(givenColor = givenColor.color)
-    Row {
-        colors.forEach {
-            ColorBox(givenColor = it, selectedColor = selectedColor, onSelect = onSelect)
+    BoxWithConstraints {
+        val screenWidth = this.maxWidth
+        Row {
+            colors.forEach {
+                ColorBox(boxSize = screenWidth * .09f, givenColor = it, selectedColor = selectedColor, onSelect = onSelect)
+            }
         }
     }
 }

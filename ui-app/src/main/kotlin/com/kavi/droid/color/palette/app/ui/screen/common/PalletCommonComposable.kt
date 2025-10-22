@@ -33,6 +33,7 @@ import androidx.compose.ui.platform.LocalClipboard
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kavi.droid.color.palette.app.R
@@ -41,7 +42,7 @@ import com.kavi.droid.color.palette.util.ColorUtil
 import java.util.Locale
 
 @Composable
-fun ColorBox(givenColor: Color, selectedColor: Color?, onSelect: (color: Color) -> Unit) {
+fun ColorBox(boxSize: Dp = 35.dp, givenColor: Color, selectedColor: Color?, onSelect: (color: Color) -> Unit) {
     var isSelected by remember { mutableStateOf(false) }
 
     selectedColor?.let {
@@ -50,8 +51,8 @@ fun ColorBox(givenColor: Color, selectedColor: Color?, onSelect: (color: Color) 
 
     Box(
         modifier = Modifier
-            .width(35.dp)
-            .height(35.dp)
+            .width(boxSize)
+            .height(boxSize)
             .background(givenColor, RectangleShape)
             .clickable {
                 isSelected = true

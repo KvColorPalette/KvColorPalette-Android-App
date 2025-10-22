@@ -16,13 +16,14 @@ composeBom = "2025.06.00"
 composeMaterial = "1.7.8"
 composeNavigation = "2.8.8"
 jetpackDatastoreVersion = "1.1.3"
-kvColorPalette = "3.1.0"
-kvColorPicker = "2.1.0"
+kvColorPalette = "3.2.0"
+kvColorPicker = "2.2.0"
 
 kotlinxSerializationVersion = "1.4.0"
 kotlinxCoroutinesVersion = "1.7.3"
 
 hiltVersion = "2.56.2"
+hiltComposeNavigation = "1.2.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -49,6 +50,7 @@ kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutine
 
 google-android-hilt = { module = "com.google.dagger:hilt-android", version.ref = "hiltVersion" }
 google-android-hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltVersion" }
+google-android-hilt-navigation = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltComposeNavigation" }
 
 kv-color-palette = { group = "com.github.KvColorPalette", name = "KvColorPalette-Android", version.ref = "kvColorPalette" }
 kv-color-picker = { group = "com.github.KvColorPalette", name = "KvColorPicker-Android", version.ref = "kvColorPicker" }

@@ -74,7 +74,7 @@ dependencies {
     // DI Hilt
     implementation(libs.google.android.hilt)
     kapt(libs.google.android.hilt.compiler)
-    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
+    implementation(libs.google.android.hilt.navigation)
 
     // Datastore
     implementation(libs.androidx.datastore)

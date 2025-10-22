@@ -1,5 +1,6 @@
 package com.kavi.droid.color.palette.app.ui.screen.dashboard.palette.pager
 
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -42,6 +43,7 @@ fun PalettePager() {
                 modifier = Modifier.padding(8.dp)
                     .padding(top = 20.dp),
                 text = "Color Palette",
+                color = MaterialTheme.colorScheme.onSurface,
                 style = MaterialTheme.typography.titleLarge
             )
         }
@@ -76,9 +78,12 @@ fun PalettePager() {
 @Composable
 fun PaletteColorRow(givenColor: KvColor, selectedColor: Color, onSelect: (color: Color) -> Unit) {
     val colors = KvColorPalette.instance.generateColorPalette(givenColor = givenColor)
-    Row {
-        colors.forEach {
-            ColorBox(givenColor = it, selectedColor = selectedColor, onSelect = onSelect)
+    BoxWithConstraints {
+        val screenWidth = this.maxWidth
+        Row {
+            colors.forEach {
+                ColorBox(boxSize = screenWidth * .09f, givenColor = it, selectedColor = selectedColor, onSelect = onSelect)
+            }
         }
     }
 }
